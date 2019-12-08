@@ -20,6 +20,13 @@ end
 # title.
 def bearded_films
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.title
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE actors.name = 'Chuck Norris'
+
   SQL
 end
 
@@ -27,6 +34,14 @@ end
 # order by the actor's name.
 def zombie_cast
   MovieDatabase.execute(<<-SQL)
+
+    SELECT actors.name
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE movies.title = 'Zombies of the Stratosphere'
+    ORDER BY actors.name
+
   SQL
 end
 
@@ -35,6 +50,16 @@ end
 # >2 movies. Order by year. Note the 'V' is capitalized.
 def biggest_years_for_little_danny
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.yr, COUNT(*) AS count
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE actors.name = 'Danny DeVito'
+    GROUP BY movies.yr
+    HAVING COUNT(*) > 2
+    ORDER BY movies.yr
+
   SQL
 end
 
@@ -42,6 +67,14 @@ end
 # star role. Order by movie title.
 def more_cage_please
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.title
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE actors.name = 'Nicolas Cage' AND castings.ord != 1
+    ORDER BY movies.title
+
   SQL
 end
 
@@ -49,6 +82,14 @@ end
 # films. Order by movie title.
 def who_is_florence_lawrence
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.title, actors.name
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE movies.yr = 1908 AND castings.ord = 1
+    ORDER BY movies.title
+      
   SQL
 end
 
@@ -57,13 +98,29 @@ end
 # 'num_bad_actors'.
 def count_bad_actors
   MovieDatabase.execute(<<-SQL)
-SQL
+
+    SELECT COUNT(*) AS num_bad_actors
+    FROM actors
+    LEFT OUTER JOIN castings ON castings.actor_id = actors.id
+    WHERE castings.movie_id IS NULL
+    GROUP BY castings.actor_id
+
+  SQL
 end
 
 # Obtain a list in alphabetical order of actors who've had exactly 20
 # starring roles. Order by actor name.
 def twenty_roles
   MovieDatabase.execute(<<-SQL)
+  
+    SELECT actors.name
+    FROM actors
+    JOIN castings ON castings.actor_id = actors.id
+    WHERE castings.ord = 1
+    GROUP BY castings.actor_id
+    HAVING COUNT(*) = 20
+    ORDER BY actors.name
+
   SQL
 end
 
@@ -71,5 +128,20 @@ end
 # 'Chris Farley' played in.
 def chris_is_missed
   MovieDatabase.execute(<<-SQL)
+  
+  SELECT movies.title, actors.name
+  FROM actors
+  JOIN castings ON castings.actor_id = actors.id
+  JOIN movies ON castings.movie_id = movies.id
+    WHERE castings.ord = 1 AND movies.id IN (
+      SELECT movies.id
+      FROM actors
+      JOIN castings ON castings.actor_id = actors.id
+      JOIN movies ON castings.movie_id = movies.id
+      WHERE actors.name = 'Chris Farley'
+    )
+
   SQL
 end
+
+# ~18min
