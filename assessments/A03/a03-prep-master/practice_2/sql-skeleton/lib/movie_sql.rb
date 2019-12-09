@@ -20,6 +20,14 @@ end
 # actors' name.
 def days_of_being_wild_cast
   MovieDatabase.execute(<<-SQL)
+
+    SELECT actors.name
+    FROM actors
+    JOIN castings ON castings.actor_id = actors.id
+    JOIN movies ON castings.movie_id = movies.id
+    WHERE movies.title = 'Days of Being Wild'
+    ORDER BY actors.name
+
   SQL
 end
 
@@ -27,6 +35,18 @@ end
 # movie title.
 def tsui_hark_films
   MovieDatabase.execute(<<-SQL)
+
+    SELECT DISTINCT movies.title
+    FROM actors
+    JOIN castings ON castings.actor_id = actors.id
+    JOIN movies ON castings.movie_id = movies.id
+    WHERE movies.director IN (
+      SELECT actors.id
+      FROM actors
+      WHERE actors.name = 'Tsui Hark'
+      )
+    ORDER BY movies.title
+
   SQL
 end
 
@@ -37,6 +57,14 @@ end
 # (e.g. 'Mary-Kent') should not count.
 def kent_supporting_actor_films
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.title, actors.name
+    FROM actors
+    JOIN castings ON castings.actor_id = actors.id
+    JOIN movies ON castings.movie_id = movies.id
+    WHERE castings.ord > 1 AND actors.name LIKE '% Kent'
+    ORDER BY movies.title
+
   SQL
 end
 
@@ -44,6 +72,14 @@ end
 # films. Order by the actor's name.
 def leading_star_for_1943_films
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.title, actors.name
+    FROM actors
+    JOIN castings ON castings.actor_id = actors.id
+    JOIN movies ON castings.movie_id = movies.id
+    WHERE castings.ord = 1 AND movies.yr = 1943
+    ORDER BY actors.name
+  
   SQL
 end
 
@@ -51,6 +87,13 @@ end
 #    associated casting information. Give the title of this movie.
 def no_casting_info
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.title
+    FROM movies
+    LEFT OUTER JOIN castings ON castings.movie_id = movies.id
+    LEFT OUTER JOIN actors ON castings.actor_id = actors.id
+    WHERE castings.actor_id IS NULL AND movies.yr = 1920
+
   SQL
 end
 
@@ -58,6 +101,16 @@ end
 # starring roles. Order by actor name.
 def biggest_stars
   MovieDatabase.execute(<<-SQL)
+
+    SELECT actors.name, COUNT(*) AS count
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE castings.ord = 1
+    GROUP BY actors.name
+    HAVING COUNT(*) >= 26
+    ORDER BY actors.name
+
   SQL
 end
 
@@ -66,6 +119,20 @@ end
 # (ord = 1). Order by the name of the supporting actors.
 def will_smith_supporting_actors
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.yr, movies.title, actors.name
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE castings.ord = 2 AND movies.id IN (
+      SELECT movies.id
+      FROM movies
+      JOIN castings ON castings.movie_id = movies.id
+      JOIN actors ON castings.actor_id = actors.id
+      WHERE actors.name = 'Will Smith' AND castings.ord = 1
+    )
+    ORDER BY actors.name
+
   SQL
 end
 
@@ -73,5 +140,18 @@ end
 # query that returns the title of this movie.
 def barrie_ingham_multiple_roles
   MovieDatabase.execute(<<-SQL)
+
+    SELECT movies.title
+    FROM movies
+    JOIN castings ON castings.movie_id = movies.id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE castings.ord = 1 AND actors.name = 'Barrie Ingham' AND movies.id IN (
+      SELECT movies.id
+      FROM movies
+      JOIN castings ON castings.movie_id = movies.id
+      JOIN actors ON castings.actor_id = actors.id
+      WHERE actors.name = 'Barrie Ingham' AND castings.ord != 1
+    )
+
   SQL
 end
