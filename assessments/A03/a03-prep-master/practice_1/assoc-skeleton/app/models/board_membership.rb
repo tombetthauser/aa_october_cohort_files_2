@@ -1,2 +1,0 @@
-class BoardMembership < ApplicationRecord
-end
