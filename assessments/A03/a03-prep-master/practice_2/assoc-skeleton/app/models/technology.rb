@@ -9,4 +9,14 @@
 #
 
 class Technology < ApplicationRecord
+
+
+    has_many :technology_memberships,
+        foreign_key: :technology_id,
+        class_name: :TechnologyMembership
+
+    has_many :projects,
+        through: :technology_memberships,
+        source: :final_project
+            
 end

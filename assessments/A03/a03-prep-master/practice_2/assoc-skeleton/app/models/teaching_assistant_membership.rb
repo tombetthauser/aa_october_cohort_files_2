@@ -10,4 +10,10 @@
 #
 
 class TeachingAssistantMembership < ApplicationRecord
+
+    belongs_to :teaching_assistant,
+        foreign_key: :teaching_assistant_id,
+        class_name: :Developer
+
+
 end

@@ -11,4 +11,30 @@
 #
 
 class Pod < ApplicationRecord
+
+
+    belongs_to :pod_leader,
+        foreign_key: :pod_leader_id,
+        class_name: :Developer
+    
+
+    has_many :circles,
+        foreign_key: :pod_id,
+        class_name: :Circle
+
+
+    has_many :students,
+        foreign_key: :student_pod_id,
+        class_name: :Developer
+
+
+    has_many :teaching_assistant_memberships,
+        through: :pod_leader,
+        source: :teaching_assistant_memberships
+    
+    has_many :teaching_assistants,
+        through: :teaching_assistant_memberships,
+        source: :teaching_assistant
+    
+
 end

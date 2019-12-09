@@ -10,4 +10,15 @@
 #
 
 class TechnologyMembership < ApplicationRecord
+
+
+    belongs_to :technology,
+        foreign_key: :technology_id,
+        class_name: :Technology
+    
+    belongs_to :final_project,
+        foreign_key: :final_project_id,
+        class_name: :FinalProject
+      
+
 end

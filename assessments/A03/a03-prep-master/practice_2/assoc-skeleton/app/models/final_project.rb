@@ -11,4 +11,25 @@
 #
 
 class FinalProject < ApplicationRecord
+
+
+    belongs_to :student,
+        foreign_key: :student_id,
+        class_name: :Developer
+    
+    belongs_to :supervisor,
+        foreign_key: :supervisor_id,
+        class_name: :Developer
+
+
+
+    has_many :technology_memberships,
+        foreign_key: :final_project_id,
+        class_name: :TechnologyMembership
+
+    has_many :technologies,
+        through: :technology_memberships,
+        source: :technology
+            
+   
 end
