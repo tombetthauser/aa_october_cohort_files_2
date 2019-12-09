@@ -1,2 +1,0 @@
-class WatchListItem < ApplicationRecord
-end
