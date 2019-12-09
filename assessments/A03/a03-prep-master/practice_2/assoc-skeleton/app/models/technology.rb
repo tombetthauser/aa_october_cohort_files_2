@@ -11,12 +11,13 @@
 class Technology < ApplicationRecord
 
 
-    has_many :technology_memberships,
+    has_many :memberships,
         foreign_key: :technology_id,
         class_name: :TechnologyMembership
 
     has_many :projects,
-        through: :technology_memberships,
+        through: :memberships,
         source: :final_project
             
+
 end

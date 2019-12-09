@@ -19,6 +19,5 @@ class TechnologyMembership < ApplicationRecord
     belongs_to :final_project,
         foreign_key: :final_project_id,
         class_name: :FinalProject
-      
 
 end

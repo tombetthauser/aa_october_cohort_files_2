@@ -16,4 +16,9 @@ class TeachingAssistantMembership < ApplicationRecord
         class_name: :Developer
 
 
+    has_one :pod,
+        through: :teaching_assistant,
+        source: :pods
+
+
 end
