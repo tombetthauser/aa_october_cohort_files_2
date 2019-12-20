@@ -1,0 +1,34 @@
+/* PHASE 2: Notifications */
+
+.notification-header ul {
+  position: absolute;
+  display: none;
+  color: black;
+  background: white;
+  border: 1px solid lightgray;
+  font-weight: bold;
+}
+
+.notification-header ul li {
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+}
+
+.notification-header ul li:hover {
+  background: lightgray;
+  cursor: pointer;
+}
+
+.notification-header:hover ul {
+  display: block;
+}
+
+.notification-header:hover {
+  background: black;
+  color: white;
+}
+
+.notification-header:hover .badge {
+  background: red;
+  color: white;
+}

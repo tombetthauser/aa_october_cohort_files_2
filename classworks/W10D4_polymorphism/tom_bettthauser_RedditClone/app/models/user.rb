@@ -8,8 +8,6 @@ class User < ApplicationRecord
 
     after_initialize :ensure_session_token   
     
-    
-    
     # FGRIPE FlU - GRIPE
 
     def self.find_by_credentials(username, password)
