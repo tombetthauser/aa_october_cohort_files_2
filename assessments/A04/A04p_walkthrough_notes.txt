@@ -535,3 +535,42 @@ App/views/users/new
 
 
 
+
+
+
+App/views/.../application.html.erb
+
+....
+	<body>
+		<% if logged_in? %>
+			<%= current_user.username %>
+			<form action="session_url" method="POST">
+
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+				<input type="hidden" name="_method" value="DELETE">
+
+				<input type="submit" value="Sign Out"> (check capybara)
+			
+			</form>
+		
+		<% else %>
+
+			<a href="<%= new_session_url %>">Sign In</a>	(check your routes again to make sense of these and capybara for wording)
+			<a href="<%= new_user_url %>">Sign Up</a>	
+	
+		<% end %>
+
+
+(Take a moment to add a 'input' VS snippet to get '<input type="" name="" value="">' as well as one for <a href=""></a> tags and any other common ones)
+
+
+
+
+
+
+
+** paused vid at 18:22 (30min to go!)
+
+
+
