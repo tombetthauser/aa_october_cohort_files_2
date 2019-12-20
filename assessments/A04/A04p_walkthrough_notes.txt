@@ -1,0 +1,512 @@
+
+
+MIGRATIONS AND MODELS
+
+
+
+
+
+$ bundle install
+
+$ bundle exec rails db:create
+
+
+
+$ rails g migration CreateUsers
+
+t.string :username, null: false
+	:password_digest & :session_token (null false also)
+
+t.timestamps
+
+
+(after create_table)
+	add_index :users, :username, unique: true
+			..., :session_token, ...
+
+
+$ bundle exec rails db:migrate db:test:load
+
+
+
+
+app/models/user.rb
+
+class User < ApplicationRecord 
+
+validates :username, :password_digest, :session_token, presence: true
+validates :password, length: { minimum: 6, allow_nil: true }
+attr_reader :password
+after_initialize :ensure_session_token
+
+has_many :links
+has_many :comments
+
+(5 USER METHODS - FIND VERIFY CHANGE RESET ENSURE)
+
+def self.find_by_credentials(username, password)
+	user = User.find_by(username: username)
+	user && user.is_password?(password) ? User : nil
+end
+
+Def is_password?(password)
+	BCrypt::Password.new(self.password_digest).is_password?(password)
+end
+
+Def password=(password)
+	self.password_digest = BCrypt::Password.create(password)
+end
+
+Def reset_session_token!
+	self.session_token = SecureRandom.urlsafe_base64(16)
+	self.save!
+	self.session_token
+end
+
+Def ensure_session_token
+	self.session_token ||= SecureRandom.urlsafe_base64(16)
+end
+
+
+
+
+
+Rails g migration CreateLinks
+
+
+T.string :title, null: false
+     ... :url, ...
+T.integer :user_id ...
+t.timestamps
+End
+add_index :links, :user_id
+
+
+
+
+
+Rails g migration CreateComments
+
+t.text :body, null: false
+T.integer :user_id, null: false
+ . ...... :link_id, ....
+
+add_index :comments, :user_id
+add_index :comments, :link_id
+
+
+$ Bundle exec rails db:migrate db:test:load
+
+
+
+
+
+
+App/models/comment.rb
+
+Class Comment < ApplicationRecord
+
+	validates :body, presence: true
+	
+	belongs_to :user,
+		foreign_key: :user_id,
+		class_name: :User
+
+	belongs_to :link,
+		foreign_key: :link_id,
+		class_name: :Link
+
+
+
+
+
+App/models/link.rb
+
+Class Link < ApplicationRecord
+
+	validates :title, :url, presence: true
+
+	belongs_to :user,
+		foreign_key: :user_id,
+		class_name: :User
+
+	has_many :comments,
+		foreign_key: :link_id,
+		class_name: :Comment
+
+
+
+
+
+_____________________________________________________________________
+
+
+
+App/controllers/application_controller.rb
+
+
+Def login(user)
+	session[:session_token] = user.reset_session_token!
+	@current_user = user
+end
+
+Def current_user
+	@current_user ||= User.find_by_session_token(session[:session_token]) # ...find_by(session[:session_token]) in David's solve pattern
+End
+
+Def require_login
+	redirect_to new_sessioin_url unless logged_in?
+end
+
+Def logged_in?
+	!!current_user
+end
+
+Def logout
+	current_user.reset_session_token!
+	session[:session_token] = nil
+end
+
+
+
+
+
+
+
+$ rails g controller Users
+$ rails g controller Sessions
+
+
+App/controllers/users_controller.rb
+
+Class UserController < ApplicationController
+
+	def new
+	end
+
+	def create
+	end
+
+end
+
+App/views/users/new.html.erb
+	"new"
+
+App/views/sessions/new.html.erb
+	"new"
+	
+
+
+
+App/config/routes.rb
+
+(Change existing line)
+
+	resources :users, only: [:create, :new]
+	resource :session, [:create, :new, :destroy]
+
+
+
+
+
+
+
+
+App/controllers/users_controller.rb
+
+Class UsersController < ApplicationController
+
+	def new
+		@user = User.new
+	end
+
+	def create
+		@user = User.new(user_params)
+		if @user.save
+			login(user)
+			# redirect_to links_url
+		else
+			flash.now[:errors] = @user.errors.full_messages
+			render :new
+		end
+	end
+
+	def user_params
+		params.require(:user).permit(:username, :password)
+	end
+
+end
+
+
+(Run specs)
+
+
+
+
+App/controllers/user_controller.rb
+
+Class SessionController > ApplicationController
+
+	def create
+		user = User.find_by_credentials(params[:user][:username], params[:user][:password])
+		if user
+			login(user)
+			# redirect_to links_url
+		else
+			flash.now[:errors] = 'No, I hate that password' (change if capy specs don't like message)
+			render :new
+		end
+	end
+
+	def new
+	end
+
+	def destroy
+		logout
+		redirect_to new_session_url
+	end
+
+end
+
+
+
+
+
+
+
+
+$ rails g controller Links
+$ rails g controller Comments
+
+(Check spec fails to know what routes to create)
+
+App/config/routes.rb
+
+...(add at end of existing)
+	resources :links
+
+
+$ rails routes (check to see if all routes exist)
+
+
+
+
+
+
+App/controllers/links_controller.rb
+
+(Run specs and then temporarily move to making some views)
+
+App/views/links/new.html.erb
+App/views/links/edit.html.erb
+App/views/links/show.html.erb
+App/views/links/index.html.erb
+
+(Check specs to see what's next)
+
+Uncomment app/controllers/sessions_controller.rb. ~line 6
+	-->redirect_to links_url
+
+Class LinksController < ApplicationController
+
+	before_action :require_login
+
+	def index
+		@links = Link.all
+	end
+
+	def show
+		@link = Link.find(params[:id])
+	end
+
+	def new
+		@link = Link.new
+	end
+
+	def create
+		@link = Link.new(link_params)
+		@link.user_id = current_user.id
+		if @link.save
+			redirect_to link_url(@link)
+		else
+			flash.now[:errors] = @link.errors.full_messages
+			render :new
+		end
+	end
+
+	def update
+		@link = current_user.links.find(params[:id])
+		if @link.update_attributes(link_params)
+			redirect_to links_url(@link)
+		else
+			flash.now[:errors] = @link.errors.full_messages
+			redirect_to :edit
+		end
+	end
+
+	def edit
+		@link = Link.find(params[:id])
+	end
+
+	def destroy
+	end
+
+	def link_params	
+		params.require(:link).permit(:title, :url)
+	end
+
+end
+
+
+
+
+
+
+(Notice in specs something like links/1/comments -- this means we have to nest routes)
+
+config/routes.rb
+(Add on to existing links line)
+
+	resources :links do
+		resources :comments, only: [:create, :destroy]
+	end
+
+(always check specs to see which routes are necessary)
+
+(Check specs also to see what corresponding views you have to make and ones you can skip)
+
+
+
+App/controllers/commments_controller.rb
+
+Class CommentsController < ApplicationController
+
+	before_action :require_login
+
+	def create
+		@comment = Comment.new(comment_params)
+		@comment.user_id = current_user.id
+		@comment.link_id = params[:link_id]
+		@comment.save
+		flash.now[:errors] = @comment.errors.full_messages
+		redirect_to link_url(@comment.link_id)
+	end
+
+	def destroy
+		@comment = Comment.find(params[:id])
+		@comment.destroy
+		redirect_to link_url(@comment.link_id)
+	end
+
+	def comment_params
+		params.require(:comments).permit(:body)
+	end
+		
+
+
+(Running specs he encounters routes error and changes config/routes.rb to this:)
+
+config/routes.rb
+(Add on to existing links line)
+
+	...
+	resources :links do
+		resources :comments, only: [:create]
+	end
+	resources :comments, only: [:destroy]
+
+
+
+(Run specs and tweak until all controller specs pass)
+
+
+
+
+
+
+
+
+
+
+
+
+____________________________________________________________________________
+
+
+FEATURES
+
+
+
+
+app/views/links/edit.html.erb
+	"links edit"
+	(only contents for now - check to make sure file exists)
+
+
+
+
+
+
+App/controllers/application_controller.rb
+
+(Make some or all methods universally accessible so we can use them in views)
+(Add this helper_methods method to the top of the application_cotroller.rb file)
+
+	...
+	helper_method :current_user, :logged_in?
+	...
+
+
+
+
+App/views/users/new.html.erb
+	"new user"
+App/views/sessions/new.html.erb
+	"session new" (only content for both)
+
+
+
+(Take a moment to look at the capybara specs - they have very specific requirements regarding the html content in the views)
+(Use the finder to locate the auth_spec.rb)
+( •) ( •) --> expect(page).to have_content 'Sign Up' ... etc 
+(there will be several lines like this to keep an eye on)
+
+
+
+
+
+(Have these up for reference in the era)
+$ rails routes
+
+
+App/views/sessions/new.html.rb
+
+<h2>Sign In</h2>
+<form action="<%= session_url %>" method="POST">
+	<input type="text" name="authenticity_token" value="<%= form_authenticity_token %>"> (check routes)
+
+	<label>
+		Username (check capybara)
+		<input type="text" name="user[username]" value="">
+	</label>
+
+	<label>
+		Password (check capybara)
+		<input type="password" name="user[password]" value="">
+	</label>
+
+	<input type="submit" value="Sign In"> (check capybara)
+
+
+</form >
+
+
+
+
+
+
+
+
+
+
+
