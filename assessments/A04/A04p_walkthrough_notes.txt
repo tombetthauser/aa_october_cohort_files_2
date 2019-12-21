@@ -574,3 +574,121 @@ App/views/.../application.html.erb
 
 
 
+
+
+
+App/views/links/edit.html.erb
+	<!-- "links edit" -->
+App/views/links/new.html.erb
+	<!-- "links new" -->
+
+(Now we make partials for these)
+
+App/views/links/_form.html.erb
+App/views/links/_form.html.erb
+
+
+App/views/links/edit.html.erb
+	<!-- "links edit" -->
+	<h2>New Link</h2>
+
+	(we're writing everything below here, but we're going to move it to our forms partial in a minute)
+
+	<form action<%= action %> method="POST">
+
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+		<% if type == :edit %>
+			<input type="hidden" name="_method" value="PATCH">
+		<% end %>
+
+		<label>
+			Title
+			<input type="text" name="link[title]" value="<%= link.title %>">
+		</label>
+
+		<label>
+			URL
+			<input type="text" name="link[url]" value="<%= link.url %>">
+		</label>
+
+		<input type="submit" name="" value="<%= button_text %>">
+
+	</form>
+
+	(now copy / delete / paste it all over)
+
+
+
+App/views/... _form.html.erb
+
+	(now we paste all that and add some logic at the top)
+
+
+	<% if type == :new %>
+	<% action = links_url %> (check your routes for this value)
+	<% button_text = "Create New Link" %>
+	<% else %>
+	<% action = link_url(link) %> (check your routes for this value too)
+	<% button_text = "Update Link" %>
+	<% end %>
+
+
+	<form action<%= action %> method="POST">
+
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+		<% if type == :edit %>
+			<input type="hidden" name="_method" value="PATCH">
+		<% end %>
+
+		<label>
+			Title
+			<input type="text" name="link[title]" value="<%= link.title %>">
+		</label>
+
+		<label>
+			URL
+			<input type="text" name="link[url]" value="<%= link.url %>">
+		</label>
+
+		<input type="submit" name="" value="<%= button_text %>">
+
+	</form>
+
+
+(Now go back and link to that partial from the new.html.erb in links)
+
+App/views/links/new.html.erb
+	<!-- "links edit" -->
+	<h2>New Link</h2>
+
+	<%= render 'form', type: :new, link: @link %>
+
+(Now do the same in your edit with some minor tweaks)
+
+App/views/links/new.html.erb
+	<!-- "links edit" -->
+	<h2>New Link</h2>
+
+	<%= render 'form', type: :edit, link: @link %>
+
+
+(Now check the specs to see what's next -- error handling)
+
+
+
+
+
+
+
+
+
+
+
+
+** paused video at 28:12
+
+(Now let's go back to our ...)
+
+
