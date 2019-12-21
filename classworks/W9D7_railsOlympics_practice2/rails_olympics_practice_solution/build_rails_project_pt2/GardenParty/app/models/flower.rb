@@ -1,3 +1,0 @@
-class Flower < ApplicationRecord
-
-end
