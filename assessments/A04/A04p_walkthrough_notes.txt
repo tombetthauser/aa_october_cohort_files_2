@@ -339,7 +339,7 @@ Class LinksController < ApplicationController
 		if @link.update_attributes(link_params)
 			redirect_to links_url(@link)
 		else
-			flash.now[:errors] = @link.errors.full_messages
+			flash.now[:errors] = @link.errors.full_messages        (these two lines are going to have to change later to ..flash[:errors].. and ..redirect_to edit_link_url..)
 			redirect_to :edit
 		end
 	end
@@ -689,6 +689,103 @@ App/views/links/new.html.erb
 
 ** paused video at 28:12
 
-(Now let's go back to our ...)
+(Now lets make a universal error handling conditional in our application view before the yield)
+
+/../application.html.rb
+
+...
+	
+	<% if flash[:errors] %>
+		<ul>
+		<% flash[:errors].each do |err| %>
+			<li><%= err %></li>
+		<% end %>
+		</ul>
+	<% end %>
+
+	<%= yield %>
+...
+
+
+(Now check spec to see if this is passing the error handling specs)
+
+
+
+
+
+
+
+
+(After these are running the specs indicate the next section to address is the index and show views)
+
+App/.../views/index.html.erb
+
+<!-- "links index" -->
+
+<h2></h2>
+<a href="<%= new_link_url %>">New Link</a>      (check routes and possibly copy specs for these)
+
+<ul>
+<% @links.each do |link| %>
+	<li><a href="<%= link_url(link) %>"><%= link.title %></a></li>
+	<li><%= link.url %></li>
+<% end %>
+</ul>
+
+
+
+
+App/.../views/show.html.erb
+
+<h2>Link Show</h2>
+
+<%= @link.user.username %>    (all of these are coming directly from the links_spec.rb)
+<%= @link.user.title %>
+<%= @link.user.url %>
+
+<a href="<%= links_url %>">Links</a>                 (check routes and specs for these)
+<a href="<%= edit_link_url %>">Edit Link</a>
+
+
+(Now there might be a no method error related to edit_link_url / :edit )
+(To fix it we check what's going on in the links_controller.rb)
+
+
+
+
+app/controllers/sessions_controller.rb
+
+Class LinksController < ApplicationController
+
+...
+	def update
+		@link = current_user.links.find(params[:id])
+		if @link.update_attributes(link_params)
+			redirect_to links_url(@link)
+		else
+			flash[:errors] = @link.errors.full_messages        (this changes so we can pass the errors to the redirect)
+			redirect_to edit_link_url			(this addresses the no method error from rspec)
+		end
+	end
+...
+
+(At this point the error handling specs should pass - debug if necessary, there should be ample clues in the spec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(Once these pass we can move on to this spec file, which we can keep open and visible in a split tab while we work through them Spec/features/comments_spec.rb)
+
 
 
