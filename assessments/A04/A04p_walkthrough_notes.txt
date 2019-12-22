@@ -787,5 +787,47 @@ Class LinksController < ApplicationController
 
 (Once these pass we can move on to this spec file, which we can keep open and visible in a split tab while we work through them Spec/features/comments_spec.rb)
 
+$ Rspec Spec/features/comments_spec.rb
+
+(Now we need to make add and delete comment features )
+( seeing the term 'adding...' In our rspec indicates that well be adding these features to existing files rather than creating new files )
 
 
+App/.../views/show.html.rb
+
+(At the bottom of the partial we can add a functional comment section)
+
+<h3>Comment</h3>
+
+
+<form action="<%= link_comments_url(@link) %>" method="POST">.    (Check the routes - note that this url - for the class - is nested and is more complicated than normal)
+
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+	<label>
+		Body    (from capybara)
+		<input type="text" name="comment[body]" value="">
+	</label>
+
+	<input type="submit" name="" value="Add Comment">    (Check capy in the spec file for value - should be next to click_button) (also might be worth adding a VSCode shortcut for "submit")
+
+<form>
+
+
+
+** paused vid at 44:45
+
+
+
+
+
+
+
+(As an aside it would be good to add this to your autofill shortcuts in VSCode for .erb files)
+
+"form" -->
+
+	<form class="" action="" method="">
+
+	<form>
+)
