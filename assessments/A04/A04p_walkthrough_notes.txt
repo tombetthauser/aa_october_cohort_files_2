@@ -797,7 +797,7 @@ App/.../views/show.html.rb
 
 (At the bottom of the partial we can add a functional comment section)
 
-<h3>Comment</h3>
+<h3>Add Comment</h3>   (changed this from 'Comment' after failing a spec -- didn't seem to fix it?)
 
 
 <form action="<%= link_comments_url(@link) %>" method="POST">.    (Check the routes - note that this url - for the class - is nested and is more complicated than normal)
@@ -805,7 +805,7 @@ App/.../views/show.html.rb
 	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
 	<label>
-		Body    (from capybara)
+		Comment    (from capybara -- he had 'Body' first and then changed it after noticing a failed spec)
 		<input type="text" name="comment[body]" value="">
 	</label>
 
@@ -813,10 +813,53 @@ App/.../views/show.html.rb
 
 <form>
 
+(Now going down the spec.rb file it's clear that "each" comment should be able to be deleted, which indicates a .each)
+
+<ul>
+	<% @link.comments.each do |comment| %>
+
+		<li><%= comment.body %></li>
+		<form action="<%= comment_url(comment) %>" method="POST">		
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+			<input type="hiddent" name="_method" value="delete">
+			<input type="submit" name="" value="Remove Comment">
+		</form>
+
+	<% end %>
+</ul>
 
 
-** paused vid at 44:45
+(At this point he goes back to make tweaks for failed specs)
+(His advice for spec failures in the views is to first make tweaks in the views then go to the corresponding .._controller.rb file if you can't get them)
 
+(Regarding using FLASH in the controllers, use flash.now[:errors] when preceding a render and flash[:errors] when using redirect_to )
+(In this case he fixed his last failing spec with such a change)
+
+App/.../comments_controller.rb
+
+...
+	def create
+		...
+		flash[:errors] = @comment.errors.full_messages
+		redirect_to link_url(@comment.link_id)
+	end
+...
+
+(Now all of his specs passed except for one from a previous spec set regarding a no method .each for an error string he defined in a controller)
+
+App/.../sessions_controller.rb
+
+Class SessionsConroller < ApplicationController
+
+	...
+	else
+		flash.now[:errors] = ["Username and Password not valid"]
+		render :new
+	end
+	...
+end
+
+(Now all 87 specs pass! We're done!)
 
 
 
