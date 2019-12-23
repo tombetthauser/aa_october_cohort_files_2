@@ -1,29 +1,33 @@
 class ApplicationController < ActionController::Base
 
+    #icrlo
+
     def login(user)
         session[:session_token] = user.reset_session_token
         @current_user = user
-    end
+    end 
 
     def current_user
         @current_user ||= User.find_by_session_token(session[:session_token])
-    end
+    end 
 
     def require_login
         redirect_to new_session_url unless logged_in?
-    end
+    end 
 
     def logged_in?
         !!current_user
-    end
+    end 
 
     def logout
         current_user.reset_session_token
         session[:session_token] = nil
-    end
+    end 
+
 
 end
 
 
 # ~9min had to peek several times
 # ~4min one peek mistake check, no mistakes
+# ~3min with no peeks
