@@ -1,5 +1,4 @@
 class LinksController < ApplicationController
-
     before_action :require_login
 
     def index
@@ -30,8 +29,8 @@ class LinksController < ApplicationController
         if @link.update_attributes(link_params)
             redirect_to links_url(@link)
         else
-            flash.now[:errors] = @link.errors.full_messages # flash[:errors] = ...
-            redirect_to :edit                               # redirect_to edit_link_url
+            flash[:errors] = @link.errors.full_messages # flash[:errors] = ...
+            redirect_to edit_link_url                            # redirect_to edit_link_url
         end
     end
 

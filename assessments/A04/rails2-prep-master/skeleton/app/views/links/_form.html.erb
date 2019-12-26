@@ -1,0 +1,32 @@
+<% if type == :new %>
+    <% action = links_url %>
+    <% button_text = "Create New Link" %>
+<% else %>
+<% debugger %>
+    <% action = link_url(link) %>
+    <% button_text = "Update Link" %>
+<% end %>
+
+
+
+<form action="<%= action %>" method="POST">
+
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+    <% if type == :edit %>
+        <input type="hidden" name="_method" value="PATCH">
+    <% end %>
+
+    <label>
+        Title
+        <input type="text" name="link[title]" value="<%= link.title %>">
+    </label>
+
+    <label>
+        URL
+        <input type="text" name="link[url]" value="<%= link.url %>">
+    </label>
+
+    <input type="submit" name="" value="<%= button_text %>">
+
+</form>
