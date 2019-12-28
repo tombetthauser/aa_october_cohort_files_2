@@ -130,6 +130,43 @@ app/views/ USERS / NEW.HTML.ERB
 
 
 
+app/views/LINKS (index show new edit)
+
+    lets try to do these all at once
+    new and edit are going to be almost identicle and are basically just forms like new in sessions and users
+    index is stupidly easy and just shows all the links through a .each
+    show is a bit tougher but only has a few parts
+        the info for the title user and url for the link
+        the form for adding a comment
+        and then a .each rendering all the comments for that link
+
+app / views / links / index.html.erb
+
+    the index is first going to have a Links Index title
+    itll then have a New Link a tag linking to the new_link_url
+    then in a ul itll just .each over the links provided in @link
+        each will render an li
+        this li will contain an a tag of the links title linking to the link_url, passing in the link.id
+
+        3.5min no bugs no notes
+
+        <h2>Links Index</h2>
+        <a href="<%= new_link_url %>">New Link</a>
+
+        <ul>
+            <% @links.each do |link| %>
+                <li><a href="<%= link_url(link) %>"><%= link.title %></a></li>
+            <% end %>
+        </ul>
+
+app / views / links / show.html.erb
+
+    
+
+app / views / links / new.html.erb
+app / views / links / edit.html.erb
+
+
 
 
 
