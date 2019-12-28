@@ -1,0 +1,66 @@
+app/views/layouts/ APPLICATION.HTML.ERB
+
+    once we reach the features specs we should only have to work on views
+
+    we start with the application.html.erb partly because this is one that doesn't have direct specs
+    technically we could write all of this in seperate views but it's much more efficient to just do it here
+    everything we'll write will be in the body but before the yield
+
+    the first thing well want to write is a conditional that will either show the following buttons
+    Sign Out if a user is logged in
+    Sign Up and Log In if a user is not logged in
+
+        first well make an if else using out logged_in? method from the application controller
+        if it returns true that means a user is logged in
+        first we'll display the username by running our current_user in erb tags and cakking .username on it
+        then well create a form whose action will be the session_url and whose method will be POST
+        then well make our hidden auth_token input
+        then well make our hidden method DELETE input
+        then all we need is the submit input with the right text inside
+        make your best guess on text and then correct based on failures, they'll be obvious
+        dont bother going into spec files
+
+        if the logged_in? returns false well just display two a tags
+        the first will have the text for logging in and will have an href pointing to new_session_url
+        the second a tag will be for signing up a new user and will point to new_user_url
+
+    The only other thing we'll want to do here is render any errors that are flashed
+    Well also do this with a conditional
+
+        to show all our flashed errors well first make a condition to check if any exist
+        then we can open a ul and make a .each on the flash[:errors]
+        for each of these errors well just make an li that has the error in it in erb tags
+        then close everythign up and were done
+
+    ~12min, not timing, no notes, talked through
+    ~6.7min no notes, one bug forgot action in form, 2sec fix, talked through
+    ~6.9min no notes, one capy name bug, 2sec fix, talked through
+
+
+
+
+    <% if logged_in? %>
+        <%= current_user.username %>
+        <form action="<%= session_url %>" method="POST">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Sign Out">
+        </form>
+        <% else %>
+        <a href="<%= new_user_url %>">Log In</a>
+        <a href="<%= new_session_url %>">Sign Up</a>
+        <% end %>
+
+        <% if flash[:errors] %>
+        <ul>
+            <% flash[:errors].each do |err| %>
+            <li><%= err %></li>
+            <% end %>
+        </ul>
+        <% end %>
+
+
+
+
+
+

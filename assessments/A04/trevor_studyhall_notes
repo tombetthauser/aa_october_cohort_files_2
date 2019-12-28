@@ -1,0 +1,48 @@
+
+#  TREVORS WALKTHROUGH
+
+# writes all models and the application controller
+    # everything passes
+
+# then he makes all his routes and all his controllers, defining the methods in terminal so views are created too (?)
+
+# then he does the user controller, passes the specs, then the sessions controller, passes the specs
+# for each of these he runs the specs first and fails them, looking at the shortest one line descriptions at the bottom of the rspec results
+
+# moving on to links controller - the specs are not very descriptive - memorization is best -- as with the application controller and user model(?)
+# the links controller will be exactly or almost exactly the same on the assessment
+# pass the specs and move on
+# now he runs the comments controller specs, writes them all memorized, passes them all after adding to the routes
+
+# now he moves on to the application.html.erb, which should be memorized
+# then he starts writing his new user view and then starts running specs
+
+# he doesn't try to pass all of them yet, he just looks for obvious capybara naming failures
+
+# he copies over the new session form from the new user form and augments it slightly
+# you should be able to pass all the specs at this point
+
+# we arent passing until we get at least half way through the links_specs
+# in the links_specs he seems to be able to depend more on the specs / failures to guide how hes writing his views
+# he copies edit link from create link almost exactly
+# at this point he passes all the links_specs and moves on
+
+# at this point he's passed the assesment
+# he runs the specs and goes spec for spec
+
+
+
+
+# memorize everything except for the views
+
+# user model and all methods
+# 5 methods on application controller
+# all controllers can be memorized, should be almost identicle on test
+# users controller will be almost identicle
+# might be store items / ratings on assessment
+# there will be a nested entity like the comments
+
+# user model methods
+# app controller methods
+# user and sessions controllers 
+# application.html.erb
