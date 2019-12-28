@@ -140,6 +140,7 @@ app/views/LINKS (index show new edit)
         the form for adding a comment
         and then a .each rendering all the comments for that link
 
+
 app / views / links / index.html.erb
 
     the index is first going to have a Links Index title
@@ -159,9 +160,74 @@ app / views / links / index.html.erb
             <% end %>
         </ul>
 
+
 app / views / links / show.html.erb
 
+    this is the tricky one
+    for this well be making four major parts
+        the first will just be displaying the info for the link
+        the second will be adding links to the index and edit link routes
+        the third will be the complete form for adding a comment
+        the fourth will be a .each that renders all the comments
+            inside this we will include a delete form for each comment
+
+    the first section is pretty straight forward
+    well include a title of Link Show
+    then running off the @link in erb tags well display the 
+        username through .user.username
+        the .title
+        and the .url
     
+    in the next section well have our external Links and Edit Link a tags
+    these will href the links_url fir the Links index
+    and the edit_link_url
+
+    then well have the Add Comment section which should start with that title
+    then well have a form whose action is going to go to the nested link_comments_url
+        passing in the @link for the id
+        the method will be POST as were adding something new
+    then well need our standard hidden auth_token input
+    followed by a label Comment with an text input field for comment[body]
+    then a submit with Add Comment
+
+    the last section will be a ul that renders every comment
+    itll iterate over each @link.comments
+        first presenting an li that contains the comment.body
+        then a simple delete form with the submit text Remove Comment
+        the action for this should be the comment_url with the comment[:id] fed in as the id
+
+    ~15min no notes, some bugs with routes, 2min fix, no talking
+
+        <h2>Link Show</h2>
+
+        <%= @link.user.username %>
+        <%= @link.title %>
+        <%= @link.url %>
+
+        <a href="<%= links_url %>">Links</a>
+        <a href="<%= edit_link_url %>">Edit Link</a>
+
+        <h3>Add Comment<h3>
+        <form action="<%= link_comments_url(@link) %>" method="POST">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <label>
+                Comment
+                <input type="text" name="comment[body]" value="">
+            </label>
+            <input type="submit" value="Add Comment">
+        </form>
+
+        <ul>
+            <% @link.comments.each do |comment| %>
+                <li><%= comment.body %></li>
+                <form action="<%= comment_url(comment[:id]) %>" method="POST">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="submit" name="" value="Remove Comment">
+                </form>
+            <% end %>
+        </ul>
+
 
 app / views / links / new.html.erb
 app / views / links / edit.html.erb

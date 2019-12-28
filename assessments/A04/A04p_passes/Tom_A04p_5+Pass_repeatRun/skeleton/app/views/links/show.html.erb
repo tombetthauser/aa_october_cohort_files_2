@@ -1,4 +1,4 @@
-<h2>Link Show</h2>
+<h2>Show Link<h2>
 
 <%= @link.user.username %>
 <%= @link.title %>
@@ -7,15 +7,14 @@
 <a href="<%= links_url %>">Links</a>
 <a href="<%= edit_link_url %>">Edit Link</a>
 
-<h3>Add Comment<h3>
+<h3>Add Comment</h3>
 <form action="<%= link_comments_url(@link) %>" method="POST">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <label>
-        Comment
+    <label>Comment
         <input type="text" name="comment[body]" value="">
     </label>
     <input type="submit" value="Add Comment">
-</form>
+<form>
 
 <ul>
     <% @link.comments.each do |comment| %>
@@ -23,7 +22,7 @@
         <form action="<%= comment_url(comment[:id]) %>" method="POST">
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
             <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" name="" value="Remove Comment">
+            <input type="submit" value="Remove Comment">
         </form>
     <% end %>
 </ul>
