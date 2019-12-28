@@ -232,8 +232,59 @@ app / views / links / show.html.erb
 app / views / links / new.html.erb
 app / views / links / edit.html.erb
 
+    these two we can do together as they are nearly identicle
+    infact breaking them out into a partial would be appropriate if this were our own app
+    the function of new is to provide a page that is just a form for making a new link
+    the function of edit is to edit an existing link
+
+    we can start by making titles for both New Link and Edit Link respectively
+    now we can start our form - this is the only other thing on the page
+
+    this will be a POST form going to the links_url and the link_url(@link.id) respectively
+    now our standard hidden auth_token
+    then on our edit we want a hidden input method for PATCH
+
+    now two label / form sections for Title and URL
+    the text input for the first will have the name link[title] and an erb value for @link.title
+    the URL text input will have the name link[url] and the erb value for @link.url
+
+    then the submit inputs will read Create New Link and Update Link respectively
+
+    ~10-15min no notes, forgot timer, no bugs, no talking
 
 
+        <h2>New Link</h2>
+
+        <form action="<%= links_url %>" method="POST">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <label>
+                Title
+                <input type="text" name="link[title]" value="<%= @link.title %>">
+            </label>
+            <label>
+                URL
+                <input type="text" name="link[url]" value="<%= @link.url %>">
+            </label>
+            <input type="submit" value="Create New Link">
+        </form>
+
+        _______________________
+
+        <h2>Edit Link</h2>
+
+        <form action="<%= link_url(@link) %>" method="POST">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="PATCH">
+            <label>
+                Title
+                <input type="text" name="link[title]" value="<%= @link.title %>">
+            </label>
+            <label>
+                URL
+                <input type="text" name="link[url]" value="<%= @link.url %>">
+            </label>
+            <input type="submit" value="Update Link">
+        </form>
 
 
 
