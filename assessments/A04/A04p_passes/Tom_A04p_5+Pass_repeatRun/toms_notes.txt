@@ -63,4 +63,146 @@ app/views/layouts/ APPLICATION.HTML.ERB
 
 
 
+app/views/ SESSIONS / NEW.HTML.ERB
+app/views/ USERS / NEW.HTML.ERB
 
+
+    these will constitute the Sign In and Sign Up pages
+    they should be almost identicle
+
+    each will only contain a title and a form
+
+    the title comes from capybara and should be straight forward
+
+    the form is going to have actions going to users_url and session_url respectively
+    the method for both will be post
+    then both will have a hidden auth_token input
+
+    then a label for Username
+    this will have the text for capybara and an text input
+    the the name will be user[username] in both views
+    this constitutes the nested keys in the params sent in the new POST request
+    the value can be empty
+
+    the second label will be similar and but with the text Password
+    the type will be password and the name will be user[password]
+
+    lastly outside the labels we will have our submit input
+    this will have Sign Up and Sign In values respectively
+    this is the only other difference, making 2 differences total
+
+    4.2min no notes no bugs talked through
+    4.6min no notes no real bugs (forgot to save) talked through
+    3.4min no notes no bugs talked through
+
+
+
+    <h2>Sign In</h2>
+
+    <form action="<%= session_url %>" method="POST">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <label>Username
+            <input type="text" name="user[username]" value="">
+        </label>
+        <label>Password
+            <input type="password" name="user[password]" value="">
+        </label>
+        <input type="submit" value="Sign In">
+    </form>
+
+    ___________
+
+    <h2>Sign Up</h2>
+
+    <form action="<%= users_url %>" method="POST">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <label>Username
+            <input type="text" name="user[username]" value="">
+        </label>
+        <label>Password
+            <input type="password" name="user[password]" value="">
+        </label>
+        <input type="submit" value="Sign Up">
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TREVORS WALKTHROUGH
+
+    MODELS
+
+        writes all models and the application controller
+            everything passes
+
+
+    CONTROLLERS
+
+        then he makes all his routes and all his controllers, defining the methods in terminal so views are created too (?)
+
+        then he does the user controller, passes the specs, then the sessions controller, passes the specs
+        for each of these he runs the specs first and fails them, looking at the shortest one line descriptions at the bottom of the rspec results
+
+        moving on to links controller - the specs are not very descriptive - memorization is best -- as with the application controller and user model(?)
+        the links controller will be exactly or almost exactly the same on the assessment
+        pass the specs and move on
+        now he runs the comments controller specs, writes them all memorized, passes them all after adding to the routes
+
+
+    FEATURES
+
+        now he moves on to the application.html.erb, which should be memorized
+        then he starts writing his new user view and then starts running specs
+
+        he doesn't try to pass all of them yet, he just looks for obvious capybara naming failures
+
+        he copies over the new session form from the new user form and augments it slightly
+        you should be able to pass all the specs at this point
+
+        we arent passing until we get at least half way through the links_specs
+        in the links_specs he seems to be able to depend more on the specs / failures to guide how hes writing his views
+        he copies edit link from create link almost exactly
+        at this point he passes all the links_specs and moves on
+
+        at this point he's passed the assesment
+        he runs the specs and goes spec for spec
+
+
+    GENERAL ADVICE
+
+        memorize everything except for the views
+    
+        user model and all methods
+        5 methods on application controller
+        all controllers can be memorized, should be almost identicle on test
+        users controller will be almost identicle
+        might be store items / ratings on assessment
+        there will be a nested entity like the comments
+
+
+        Memorization List
+
+            user model methods
+            app controller methods
+            user and sessions controllers 
+            application.html.erb

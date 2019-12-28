@@ -2,12 +2,10 @@
 
 <form action="<%= users_url %>" method="POST">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <label>
-        Username
+    <label>Username
         <input type="text" name="user[username]" value="">
     </label>
-    <label>
-        Password
+    <label>Password
         <input type="password" name="user[password]" value="">
     </label>
     <input type="submit" value="Sign Up">
