@@ -5,4 +5,38 @@ const titleize = (namesArr, callback) => {
     });
 }
 
-titleize(["Tom", "Mike", "Erin"], console.log);
+// titleize(["Tom", "Mike", "Erin"], console.log);
+
+
+
+
+
+
+
+function Elephant(name, height, tricks) {
+    this.name = name;
+    this.name = height;
+    this.name = tricks;
+}
+
+Elephant.prototype.trumpet = function() {
+    console.log(`${this.name} the elephant goes phrRRRRRRRR!!!`)
+}
+
+Elephant.prototype.grow = function() {
+    this.height += 12;
+}
+
+Elephant.prototype.addTrick = function(trick) {
+    this.tricks.push(trick);
+}
+
+Elephant.prototype.play = function() {
+    let randIndex = Math.floor(Math.random() * this.tricks.length);
+    let randTrick = this.tricks[randIndex];
+    console.log(`${this.name} is ${randTrick}!`)
+}
+
+const stampy = new Elephant('Stampy', 84, ['stamping', 'crushing things']);
+
+stampy.trumpet();
