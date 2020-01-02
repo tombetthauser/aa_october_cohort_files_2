@@ -15,8 +15,8 @@ const titleize = (namesArr, callback) => {
 
 function Elephant(name, height, tricks) {
     this.name = name;
-    this.name = height;
-    this.name = tricks;
+    this.height = height;
+    this.tricks = tricks;
 }
 
 Elephant.prototype.trumpet = function() {
@@ -40,3 +40,14 @@ Elephant.prototype.play = function() {
 const stampy = new Elephant('Stampy', 84, ['stamping', 'crushing things']);
 
 stampy.trumpet();
+console.log(stampy.tricks);
+stampy.addTrick("hurting people")
+console.log(stampy.tricks);
+stampy.play();
+stampy.play();
+stampy.play();
+console.log(stampy.height);
+stampy.grow()
+console.log(stampy.height);
+stampy.grow()
+console.log(stampy.height);
