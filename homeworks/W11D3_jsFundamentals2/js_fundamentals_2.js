@@ -73,6 +73,59 @@ Elephant.paradeHelper = function(elephant) {
     console.log(`${elephant.name} the elephant is ${elephant.tricks[randIndex2]} as it ${verbs[randIndex1]} by!`)
 }
 
-// stampy.paradeHelper(ellie);
+// herd.forEach(Elephant.paradeHelper)
 
-herd.forEach(Elephant.paradeHelper)
+
+// function dinerBreakfast() {
+//     let order = "I'd like cheesy scrambled eggs please.";
+//     console.log(order);
+
+//     return function (food) {
+//         order = `${order.slice(0, order.length - 8)} and ${food} please.`;
+//         console.log(order);
+//     };
+// };
+
+
+function resolutionsList() {
+    let list = "I'd like to get more exercise this year.";
+    console.log(list);
+
+    return function (resolution) {
+        list = `${list.slice(0, list.length - 11)} and ${resolution} this year.`;
+        console.log(list);
+    };
+};
+
+// an anonymous closure seems to be an anonymous function, a function that isn't named
+// that lives inside a named function as the return value
+// the named function can have a starting set of variables etc that are manipulated by the
+// anonymous callback function
+// the named function can then be called as the value of a new variable
+// that variable will hold the starting values of any variables
+// we can now treat that variable like a function
+// as the return value of the function was that anonymous function
+// we can now pass arguments into this variable as though it were a function
+// when we do this the function can perminantly change any of the stored variables
+// then we can create other versions of this function in other variables
+// that will have their own independent variables that can be changed
+
+let erinsList = resolutionsList();
+let tomsList = resolutionsList();
+
+erinsList("be a great mom")
+erinsList("detach emotionally from my job")
+erinsList("drink more juice")
+erinsList("feel connected to my studio")
+
+tomsList("get a great job")
+tomsList("be a great dad")
+tomsList("be a great husband")
+tomsList("make some dope art")
+
+
+
+
+
+
+
