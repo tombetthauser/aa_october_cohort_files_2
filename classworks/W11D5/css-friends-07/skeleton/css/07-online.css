@@ -1,0 +1,28 @@
+/* PHASE 7: Online */
+
+.profile-picture {
+    overflow: hidden;
+}
+
+.online {
+    text-transform: uppercase;
+    color: white;
+    background: #0c0;
+    position: absolute;
+    display: block;
+    top: -10px;
+    left: -10px;
+    padding: 5px 30px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    box-shadow: 0 1px #070;
+    transform: rotate(-45deg) translateX(-25%);
+}
+
+/*
+Two, three, or four <length> values.
+    If only two values are given, they are interpreted as <offset-x><offset-y> values.
+    If a third value is given, it is interpreted as a <blur-radius>.
+    If a fourth value is given, it is interpreted as a <spread-radius>.
+*/
