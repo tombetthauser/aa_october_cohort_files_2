@@ -137,7 +137,7 @@ eval("\nconst MoveError = function (msg) { this.msg = msg; };\n\n// MoveError re
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class View {\n  constructor(game, $el) {}\n\n  bindEvents() {}\n\n  makeMove($square) {}\n\n  setupBoard() {}\n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
+eval("class View {\n  constructor(game, $el) {\n    this.$el = $el;\n    this.game = game;\n    this.setupBoard();\n  }\n\n  bindEvents() {\n    \n  }\n\n  makeMove($square) {}\n\n  setupBoard() {\n    const $ul = $(\"<ul>\");\n    $ul.addClass(\"grid-ul\");\n    for (let i = 0; i < 3; i++) {\n      for (let j = 0; j < 3; j++) {\n        const $li = $(\"<li>\");\n        $li.data(\"pos\", [i, j]);\n        $li.addClass(\"grid-li b-gray\");\n        $ul.append($li);\n      }\n    }\n    this.$el.append($ul);\n  }\n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
 
 /***/ })
 

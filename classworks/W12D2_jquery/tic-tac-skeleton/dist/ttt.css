@@ -1,0 +1,54 @@
+body {
+  display: block;
+  margin: auto;
+  width: 399px;
+}
+
+h1 {
+  display: block;
+  text-align: center;
+}
+
+.grid-ul {
+    display: flex;
+    flex-wrap: wrap;
+    width: 399px;
+    margin: 0;
+    padding: 0;
+    border: solid 5px black;
+}
+
+.grid-li {
+    border: solid 5px black;
+    width: 123px;
+    height: 123px;
+    list-style: none;
+}
+
+.b-none {
+  background-color: none;
+}
+
+.b-yellow {
+  background-color: yellow;
+}
+
+.b-gray {
+  background-color: gray;
+}
+
+.b-green {
+  background-color: green;
+}
+
+.t-black {
+  color: black;
+}
+
+.t-red {
+  color: red;
+}
+
+.t-white {
+  color: white;
+}
