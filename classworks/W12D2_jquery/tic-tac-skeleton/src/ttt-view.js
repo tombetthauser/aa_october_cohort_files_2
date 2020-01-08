@@ -3,13 +3,26 @@ class View {
     this.$el = $el;
     this.game = game;
     this.setupBoard();
+    this.bindEvents();
   }
 
   bindEvents() {
-    
+    this.$el.on("click", "li", (e) => {
+      const $li = $(e.currentTarget);
+      this.makeMove($li);
+    });
   }
 
-  makeMove($square) {}
+  makeMove($square) {
+    this.game.playMove($square.data("pos"));
+    $square.removeClass("b-gray");
+    $square.text(this.game.currentPlayer);
+    
+    if (this.game.isOver()) {
+      alert(`${this.game.winner()} wins!`);
+      this.$el.off("click", "li");
+    }
+  }
 
   setupBoard() {
     const $ul = $("<ul>");

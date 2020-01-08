@@ -137,7 +137,7 @@ eval("\nconst MoveError = function (msg) { this.msg = msg; };\n\n// MoveError re
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class View {\n  constructor(game, $el) {\n    this.$el = $el;\n    this.game = game;\n    this.setupBoard();\n  }\n\n  bindEvents() {\n    \n  }\n\n  makeMove($square) {}\n\n  setupBoard() {\n    const $ul = $(\"<ul>\");\n    $ul.addClass(\"grid-ul\");\n    for (let i = 0; i < 3; i++) {\n      for (let j = 0; j < 3; j++) {\n        const $li = $(\"<li>\");\n        $li.data(\"pos\", [i, j]);\n        $li.addClass(\"grid-li b-gray\");\n        $ul.append($li);\n      }\n    }\n    this.$el.append($ul);\n  }\n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
+eval("class View {\n  constructor(game, $el) {\n    this.$el = $el;\n    this.game = game;\n    this.setupBoard();\n    this.bindEvents();\n  }\n\n  bindEvents() {\n    this.$el.on(\"click\", \"li\", (e) => {\n      const $li = $(e.currentTarget);\n      this.makeMove($li);\n    });\n  }\n\n  makeMove($square) {\n    this.game.playMove($square.data(\"pos\"));\n    $square.removeClass(\"b-gray\");\n    $square.text(this.game.currentPlayer);\n    \n    if (this.game.isOver()) {\n      alert(`${this.game.winner()} wins!`);\n      this.$el.off(\"click\", \"li\");\n    }\n  }\n\n  setupBoard() {\n    const $ul = $(\"<ul>\");\n    $ul.addClass(\"grid-ul\");\n    for (let i = 0; i < 3; i++) {\n      for (let j = 0; j < 3; j++) {\n        const $li = $(\"<li>\");\n        $li.data(\"pos\", [i, j]);\n        $li.addClass(\"grid-li b-gray\");\n        $ul.append($li);\n      }\n    }\n    this.$el.append($ul);\n  }\n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
 
 /***/ })
 
