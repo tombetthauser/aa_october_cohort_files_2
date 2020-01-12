@@ -416,6 +416,8 @@ function deepDup(arr) {
 // 2min!
 
 
+
+
 // Write a recursive function `stringIncludeKey(string, key)` that takes in 
 // a string to search and a key string. Return true if the string contains all 
 // of the characters in the key in the same order that they appear in the key.
@@ -423,8 +425,32 @@ function deepDup(arr) {
 // stringIncludeKey("cadbpc", "abc") => true
 // stringIncludeKey("cba", "abc") => false
 
+function stringIncludeKey(string, key) {
+    if (key.length === 0) return true;
+    if (string.length === 0) return false;
+
+    if (key[0] === string[0]) return stringIncludeKey(string.slice(1), key.slice(1));
+    return stringIncludeKey(string.slice(1), key);
+}
+
+// 4min -- super rusty!!
+
+
+
+
 // Write a function `firstEvenNumbersSum(n)` that returns the sum of the
 // first n even numbers recursively. Assume n > 0
+
+function firstEvenNumbersSum(n) {
+    if (n === 0) return 0;
+    if (n === 1) return 2;
+
+    return (n * 2) + firstEvenNumbersSum(n-1);
+}
+
+// ~3min!! -- super rusty
+
+
 
 
 // Write a function, `digitalRoot(num)`. It should sum the digits of a positive
@@ -437,20 +463,87 @@ function deepDup(arr) {
 // You may wish to use a helper function, `digitalRootStep(num)` which performs
 // one step of the process.
 
+function digitalRoot(num) {
+    while (num > 9) {
+        num = Math.floor(num / 10) + (num % 10)
+    }
+    return num;
+}
+
+// ~3.5min -- super rusty!!
+
+
 
 // Write a function, `exponent(b, n)`, that calculates b^n recursively. 
 // Your solution should accept negative values for n. Do NOT use ** or Math.pow
+
+function exponent(b, n) {
+    if (n === 0) return 1;
+    if (n === 1) return b;
+    if (n > 0) {
+        return b * exponent(b, (n-1));
+    } else {
+        return 1 / b * exponent(b, (n+1))
+    }
+}
+
+// ~4min -- super rusty!!
+
+
 
 // Write a function, `fibsSum(n)`, that finds the sum of the first n
 // fibonacci numbers recursively. Assume n > 0.
 // Note that for this problem, the fibonacci sequence starts with [1, 1]. 
 
+function fib(n) {
+    if (n < 3) return 1;
+    return fib(n-2) + fib(n-1);
+}
+
+function fibsSum(n) {
+    if (n < 3) return n;
+    return fibsSum(n-1) + fib(n);
+}
+
+// 8min - peeked at notes
+// 9min - peeked again
+// 2min!! no notes
+// 1.5min!!! no notes :)
+
+
+
 // Write a recursive function, `factorialsRec(num)`, that returns the first 
 // `num` factorial numbers. Note that the 1st factorial number is 0!, which 
 // equals 1. The 2nd factorial is 1!, the 3rd factorial is 2!, etc.
 
+function factorialsRec(num) {
+    if (num === 1) return [1];
+
+    let facts = factorialsRec(num - 1);
+    let last = facts[facts.length - 1];
+
+    facts.push(last * (num - 1));
+    return facts;
+}
+
+// 15min -- peeked -- sooo rusty ::((
+// 3min no notes!
+// 2min no notes!!
+// 2min again! yay!
+
+
+
 // Write a recursive function `recSum(numArr)` that returns the sum of all
 // elements in an array. Assume all elements are numbers.
+
+function recSum(arr) {
+    if (arr.length < 1) return 0;
+    if (arr.length < 2) return arr[0];
+
+    return arr[0] + recSum(arr.slice(1));
+}
+
+// 2.5min -- dumb bug, no prob
 
 
 
@@ -467,8 +560,22 @@ function deepDup(arr) {
 // Write a function `transpose(arr)` that returns a 2d array transposed.
 // e.g. transpose([[1,2],[3,4],[5,6]]) => [[1,3,5],[2,4,6]]
 
+function transpose(arr) {
+    const rarr = [];
 
+    for (let i = 0; i < arr[0].length; i++) {
+        let sub = [];
+        for (let j = 0; j < arr.length; j++) {
+            sub.push(arr[j][i]);
+        }
+        rarr.push(sub);
+    }
 
+    return rarr;
+}
+
+// ~5min rusty
+// 2.5min!!
 
 
 
@@ -484,6 +591,27 @@ function deepDup(arr) {
 // ex. 
 // `abcde`.mySlice(2) => `cde`
 // `abcde`.mySlice(1, 3) => `bc`
+
+String.prototype.mySlice = function(startIdx, endIdx) {
+    let restr = "";
+
+    if (endIdx == null) {
+        endIdx = this.length;
+    }
+
+    for (let i = startIdx; i < endIdx && i < this.length; i++) {
+        restr += this[i];
+    }
+
+    return restr;
+}
+
+// 22min -- stupid bugs -- peeked -- fu jasmine
+// 3min -- no notes
+// 2min - no notes, w/e fu jasmine
+
+
+
 
 // Write an `Array.prototype.myRotate(times)` method which rotates the array by 
 // the given argument. If no argument is given, rotate the array by one position. 
@@ -637,7 +765,6 @@ function deepDup(arr) {
 // Write a `Function.prototype.myCurry(numArgs)` method that collects arguments 
 // until the number of arguments collected is equal to the original `numArgs` 
 // value and then invokes the curried function.
-
 
 
 // Write a `Function.prototype.inherits(ParentClass)` method. It should extend
