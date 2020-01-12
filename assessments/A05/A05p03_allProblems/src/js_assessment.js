@@ -199,7 +199,7 @@ Array.prototype.quickSort = function(callback) {
 // sorted array.
 
 Array.prototype.bubbleSort = function(callback) {
-    if (callback == null) {
+    if (!callback) {
         callback = function(z,x) {
             if (z<x) return -1;
             return 1;
@@ -209,11 +209,11 @@ Array.prototype.bubbleSort = function(callback) {
     let copy = this.slice();
     let sorted = false;
 
-    while (sorted === false) {
+    while (!sorted) {
         sorted = true;
         for (let i = 0; i < copy.length - 1; i++) {
-            if (callback(copy[i], copy[i+1]) === 1) {
-                [copy[i], copy[i+1]] = [copy[i+1], copy[i]];
+            if (callback(copy[i], copy[i+1]) !== -1) {
+                [copy[i+1], copy[i]] = [copy[i], copy[i+1]];
                 sorted = false;
             }
         }
@@ -222,9 +222,8 @@ Array.prototype.bubbleSort = function(callback) {
     return copy;
 }
 
-console.log([3,2,1].bubbleSort());
-
 //12min -- got stuck in debugger?
+//4min - no bugs
 
 
 
@@ -250,8 +249,43 @@ console.log([3,2,1].bubbleSort());
 // until a base case is reached. Use a helper method, merge, to combine the
 // halves in sorted order, and return the merged array.
 
+Array.prototype.mergeSort = function(callback) {
+    if (this.length < 2) return this;
 
+    if (!callback) {
+        callback = function(a, b) {
+            if (a < b) return -1;
+            return 1;
+        }
+    }
 
+    let mid = Math.floor(this.length - 1);
+    let left = this.slice(0, mid).mergeSort(callback);
+    let right = this.slice(mid).mergeSort(callback);
+
+    return merge(left, right, callback);
+}
+
+function merge(left, right, callback) {
+    let sorted = [];
+
+    while (left.length && right.length) {
+        call = callback(left[0], right[0]);
+        if (call === 1) {
+            sorted.push(right.shift());
+        } else {
+            sorted.push(left.shift());
+        }
+    }
+
+    return sorted.concat(left).concat(right);
+}
+
+// console.log([2,1,4,5,2].mergeSort())
+
+// 15min -- had to peek -- length issue in merge while loop?
+// 7min -- dumb bug - didnt devide length for mid
+// 5.5min -- dumb bug -- used shift instead of shift()
 
 
 
