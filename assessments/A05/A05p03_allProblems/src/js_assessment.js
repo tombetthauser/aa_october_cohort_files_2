@@ -763,7 +763,7 @@ Array.prototype.median = function() {
     }
 }
 
-console.log([1,2,4,3].median())
+// console.log([1,2,4,3].median())
 
 // 6min - had to peek - they didn't fucking say it needed to be FUCKING sorted FUCK YOU
 
@@ -830,6 +830,16 @@ function doubler(arr) {
 // function should return `undefined`
 // Do not use the built-in `Array.prototype.find` method.
 
+function myFind(arr, call) {
+    let ret;
+    arr.forEach(ele => {
+        if (call(ele) && !ret) ret = ele;
+    })
+    return ret;
+}
+
+// 3min super rusty
+
 
 
 
@@ -846,8 +856,48 @@ function doubler(arr) {
 // Write a function `primes(num)`, which returns an array of the first "num" primes.
 // You may wish to use an `isPrime(num)` helper function.
 
+
+function primes(num) {
+    let rarr = [];
+    let i = 2;
+    while (rarr.length < num) {
+        if (isPrime(i)) rarr.push(i);
+        i++;
+    }
+    return rarr;
+}
+
+function isPrime(num) {
+    for (let i = 2; i < num; i++) {
+        if (num % i === 0) return false;
+    }
+    return true;
+}
+
+// 11min super rusty -- 1 is not a prime? sure whatever
+// 2.5 min -- no bugs
+
+
+
 // Write an `Array.prototype.twoSum` method, that finds all pairs of positions 
 // where the elements at those positions sum to zero.
+
+Array.prototype.twoSum = function() {
+    let pairs = [];
+
+    for (let i = 0; i < this.length - 1; i++) {
+        for (let j = i + 1; j < this.length; j++) {
+            if ((this[i] + this[j]) === 0) pairs.push([i, j]);
+        }
+    }
+
+    return pairs;
+}
+
+console.log([1,2,-1,-2,3].twoSum())
+
+// / 4min super rusty -- dumb bugs no biggie
+
 
 // NB: ordering matters. Each pair must be sorted with the smaller index
 // before bigger index. The array of pairs must be sorted
