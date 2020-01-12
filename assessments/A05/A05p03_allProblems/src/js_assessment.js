@@ -3,22 +3,22 @@
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
-function capitalize(word) {
-    let newWord = word[0].toUpperCase();
-    newWord += word.slice(1)
-    return newWord;
-}
-
 function titleize(str) {
-    lowers = ["a", "and", "of", "over", "the"];
-    arr = capitalize(str).split(" ");
-    return arr.map(word => {
-        return lowers.includes(word) ? word : capitalize(word);
-    }).join(" ");
+    nos = ["a", "and", "of", "over", "the"]
+    arr1 = str.split(" ");
+    arr1[0] = arr1[0][0].toUpperCase() + arr1[0].slice(1);
+    for (let i = 0; i < arr1.length; i++) {
+        if (!nos.includes(arr1[i])) {
+            arr1[i] = arr1[i][0].toUpperCase() + arr1[i].slice(1);
+        }
+    }
+    return arr1.join(" ");
 }
 
 // console.log(titleize("dog and cat"));
 // 8min -- had to google touppercase
+// 4min -- rusty
+// 4min -- less rusty
 
 
 
@@ -40,40 +40,23 @@ function titleize(str) {
 // anagrams('listen', 'silent') => true
 // anagrams('listen', 'potato') => false
 
-function reverser(word) {
-    let reverse = "";
-    for (let i = word.length - 1; i >= 0; i--) {
-        reverse += word[i];
-    }
-    return reverse;
-}
-
 function anagrams(str1, str2) {
-    if (str1.length !== str2.length) return false;
     hash = {};
     for (let i = 0; i < str1.length; i++) {
-        if (hash[str1[i]] == null) hash[str1[i]] = 0;
+        hash[str1[i]] = hash[str1[i]] || 0;
         hash[str1[i]] += 1;
     }
     for (let i = 0; i < str2.length; i++) {
-        if (hash[str2[i]] == null) hash[str2[i]] = 0;
+        hash[str2[i]] = hash[str2[i]] || 0;
         hash[str2[i]] -= 1;
     }
-    // alert(Object.values(hash))
-    return Object.values(hash).forEach(ele => {
-        if (ele > 0) {
-            return false;
-        };
-        return true;
-    });
+    return Object.values(hash).every(count => count === 0);
 }
 
-console.log(anagrams("plunky", "plnuky"));
+anagrams("cat", "tvc");
 
-
-
-
-
+// 9min --- super rusty
+// 2.5min :)
 
 
 
@@ -86,12 +69,41 @@ console.log(anagrams("plunky", "plnuky"));
 // an array containing the substrings of `string` that appear in `dictionary`.
 // sorted alphabetically. This method does NOT return any duplicates.
 
+String.prototype.realWordsInString = function(dictionary) {
+    subs = [];
+    dictionary.forEach(word => {
+        if (this.includes(word)) {
+            subs.push(word);
+        }
+    });
+    return subs.sort();
+}
+
+//3min --- rusty
+
+
 // Write a `String.prototype.symmetricSubstrings` method that returns an array
 // of substrings which are palindromes in alphabetical order. Only include 
 // substrings of length > 1.
 // e.g. "cool".symmetricSubstrings() => ["oo"]
 
+String.prototype.symmetricSubstrings = function() {
+    let subs = [];
+    for (let i = 0; i < this.length - 1; i++) {
+        for (let j = i+1; j < this.length; j++) {
+            sub = this.slice(i, j+1);
+            if (sub === sub.split("").reverse().join("")) {
+                subs.push(sub);
+            }
+        }
+    }
+    return subs.sort();
+}
 
+"rattatakak".symmetricSubstrings();
+
+// 10min -- rough / rusty / bugs
+// 3min --- use .split("").reverse().join("") !!
 
 
 
