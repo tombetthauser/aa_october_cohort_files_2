@@ -356,23 +356,25 @@ function jumbleSort(str, alpha) {
 // reached.
 
 function binarySearch(arr, target) {
-    if (arr.length < 1) return -1;
+    if (arr.length === 0) return -1;
 
     let midx = Math.floor(arr.length / 2);
     let middle = arr[midx];
     let left = arr.slice(0, midx);
     let right = arr.slice(midx + 1);
 
-    if (target > middle) {
+    if (middle > target) {
+        return binarySearch(left, target);
+    } else if (target > middle) {
         let sub = binarySearch(right, target);
         if (sub === -1) return -1;
-        return (midx + 1 + sub);
-    } else if (target < middle) {
-        return binarySearch(left, target);
+        return (sub + midx + 1);
     } else {
         return midx;
     }
 }
+
+// console.log(binarySearch([1,2,3,4,5], 10));
 
 // 22min with notes ... bad
 // 20min with notes... wtf
@@ -380,6 +382,9 @@ function binarySearch(arr, target) {
 // 4min no notes!!
 // 3min no notes!!!
 
+// 8min no notes -- error on return (mid + sub + 1)
+// 5min wierd -1 bug
+// 3.5 min -- left / middle bug -- no biggie
 
 
 
@@ -613,6 +618,7 @@ String.prototype.mySlice = function(startIdx, endIdx) {
 
 
 
+
 // Write an `Array.prototype.myRotate(times)` method which rotates the array by 
 // the given argument. If no argument is given, rotate the array by one position. 
 // ex.
@@ -620,8 +626,27 @@ String.prototype.mySlice = function(startIdx, endIdx) {
 // ["a", "b", "c", "d"].myRotate(2) => ["c", "d", "a", "b"]
 // ["a", "b", "c", "d"].myRotate(-1) => ["d", "a", "b", "c"]
 
+// 10:28
 
+Array.prototype.myRotate = function(time = 1) {
+    let copy = this.slice();
+    if (time > 0) {
+        time = time % this.length;
+        for (let i = 0; i < time; i++) {
+            copy.push(copy.shift());
+        }
+    } else {
+        time = (-1 * time) % this.length;
+        for (let i = 0; i < time; i++) {
+            copy.unshift(copy.pop());
+        }
+    }
+    return copy;
+}
 
+// console.log([1,2,3,4,5,6,7,8].myRotate(-16));
+
+// ~15min while talking to dan -- no problems
 
 
 
@@ -633,8 +658,21 @@ String.prototype.mySlice = function(startIdx, endIdx) {
 // Write a function, `factors(num)`, that returns an array containing the factors
 // of a number in ascending order.
 
+// 10:55
 
+function factors(num) {
+    let arr = [];
+    for (let i = 0; i <= num; i++) {
+        if (num % i === 0 && !(arr.includes(i))) {
+            arr.push(i);
+        }
+    }
+    return arr;
+}
 
+// console.log(factors(10));
+
+// ~20min super distracted - over thought it
 
 
 
@@ -648,9 +686,40 @@ String.prototype.mySlice = function(startIdx, endIdx) {
 // Example:
 // [["a"], "b", ["c", "d", ["e"]]].myFlatten() => ["a", "b", "c", "d", "e"]
 
+Array.prototype.myFlatten = function() {
+    let flat = [];
+    this.forEach(ele => {
+        if (ele instanceof Array) {
+            flat = flat.concat(ele.myFlatten());
+        } else {
+            flat.push(ele);
+        }
+    })
+    return flat;
+}
+
+// 10+min peeked -- dumb syntax errs
+// 2min no notes
+// 2min no notes!
+
+
+
+
 // Write a function `myReverse(array)` which returns the array in reversed
 // order. Do NOT use the built-in `Array.prototype.reverse`.
 // ex. myReverse([1,2,3]) => [3,2,1]
+
+function myReverse(arr) {
+    let rev = [];
+    for (i = arr.length - 1; i >= 0; i--) {
+        rev.push(arr[i]);
+    }
+    return rev;
+}
+
+// 2min -- super rusty
+
+
 
 // Write an `Array.prototype.myJoin(separator)` method, which joins the elements
 // of an array into a string. If an argument is provided to `myJoin`, use that
@@ -660,8 +729,17 @@ String.prototype.mySlice = function(startIdx, endIdx) {
 // [1, 2, 3].myJoin() => '123'
 // [1, 2, 3].myJoin('$') => '1$2$3'
 
+Array.prototype.myJoin = function(sep = '') {
+    let joined = '';
+    this.forEach( (ele, idx) => {
+        joined += `${ele}`;
+        if (idx < this.length - 1) joined += sep;
+    });
+    return joined;
+}
 
-
+// 11min -- stupid jasmine bugs
+// 3min with dumb 'function' syntax stupidness 
 
 
 
@@ -674,6 +752,26 @@ String.prototype.mySlice = function(startIdx, endIdx) {
 // in an array. If the length is even, return the average of the middle two 
 // elements.
 
+Array.prototype.median = function() {
+    let copy = this.sort();
+    if (copy.length < 1) return null;
+    let midx = Math.floor(copy.length / 2);
+    if (copy.length % 2 === 0) {
+        return (copy[midx - 1] + copy[midx]) / 2
+    } else {
+        return copy[midx]
+    }
+}
+
+console.log([1,2,4,3].median())
+
+// 6min - had to peek - they didn't fucking say it needed to be FUCKING sorted FUCK YOU
+
+
+
+
+
+
 // Write an `Array.prototype.dups` method that will return an object containing 
 // the indices of all duplicate elements. The keys are the duplicate elements; 
 // the values are arrays of their indices in ascending order
@@ -681,12 +779,37 @@ String.prototype.mySlice = function(startIdx, endIdx) {
 // Example: 
 // [1, 3, 4, 3, 0, 3, 0].dups => { 3: [1, 3, 5], 0: [4, 6] }
 
+Array.prototype.dups = function() {
+    let hash = {};
+    for (let i = 0; i < this.length; i++) {
+        hash[this[i]] = hash[this[i]] || [];
+        hash[this[i]].push(i);
+    }
+    let hash2 = {};
+    for (let i = 0; i < this.length; i++) {
+        if (hash[this[i]].length > 1) hash2[this[i]] = hash[this[i]]
+    }
+    return hash2;
+}
+
+// console.log([1,2,3,4,3,2].dups());
+
+// 4min super rusty
+
+
+
+
 // Write a function, `doubler(arr)`, that returns a copy of the input array 
 // with all elements doubled. You do not need to worry about invalid input.
 //
 // Example:
 // doubler([1, 2, 3]) => [2, 4, 6]
 
+function doubler(arr) {
+    return arr.map(ele => (ele * 2))
+}
+
+// 2min super rusty
 
 
 
