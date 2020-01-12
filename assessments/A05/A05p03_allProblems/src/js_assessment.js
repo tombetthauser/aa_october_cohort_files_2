@@ -100,7 +100,7 @@ String.prototype.symmetricSubstrings = function() {
     return subs.sort();
 }
 
-"rattatakak".symmetricSubstrings();
+// "rattatakak".symmetricSubstrings();
 
 // 10min -- rough / rusty / bugs
 // 3min --- use .split("").reverse().join("") !!
@@ -109,6 +109,26 @@ String.prototype.symmetricSubstrings = function() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------ SORTING ------------------------------
 
 
 
@@ -127,7 +147,42 @@ String.prototype.symmetricSubstrings = function() {
 //
 // Choose a pivot element, then iterate over the rest of the array, moving the 
 // remaining elements on to the appropriate side of the pivot. Recursively quick 
-// sort each side of the array until a base case is reached. 
+// sort each side of the array until a base case is reached.
+
+Array.prototype.quickSort = function(callback) {
+    if (this.length < 2) return this;
+    if (!callback) {
+        callback = function(z,x) {
+            if (z<x) return -1;
+            return 1;
+        }
+    }
+
+    let pivot = this[0];
+    let left = this.slice(1).filter(e => callback(e, pivot) === -1);
+    let right = this.slice(1).filter(e => callback(e, pivot) !== -1);
+
+    left = left.quickSort(callback);
+    right = right.quickSort(callback);
+
+    return [...left, pivot, ...right];
+}
+
+// ~15min - super rusty -- peeked at solution
+// 7min --- dumb bug, no 'lets' -- super non-descriptive
+//4min -- no real issues
+//3min -- zero bugs
+
+
+
+
+
+
+
+
+
+
+
 
 // Write an `Array.prototype.bubbleSort(callback)` method, that bubble sorts an array.
 // It should take an optional callback that compares two elements, returning
@@ -143,7 +198,33 @@ String.prototype.symmetricSubstrings = function() {
 // reaching the end of the array, repeat the process. Otherwise, return the
 // sorted array.
 
+Array.prototype.bubbleSort = function(callback) {
+    if (callback == null) {
+        callback = function(z,x) {
+            if (z<x) return -1;
+            return 1;
+        }
+    }
 
+    let copy = this.slice();
+    let sorted = false;
+
+    while (sorted === false) {
+        sorted = true;
+        for (let i = 0; i < copy.length - 1; i++) {
+            if (callback(copy[i], copy[i+1]) === 1) {
+                [copy[i], copy[i+1]] = [copy[i+1], copy[i]];
+                sorted = false;
+            }
+        }
+    }
+
+    return copy;
+}
+
+console.log([3,2,1].bubbleSort());
+
+//12min -- got stuck in debugger?
 
 
 
