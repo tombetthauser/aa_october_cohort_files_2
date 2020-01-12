@@ -3,6 +3,34 @@
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
+function capitalize(word) {
+    let newWord = word[0].toUpperCase();
+    newWord += word.slice(1)
+    return newWord;
+}
+
+function titleize(str) {
+    lowers = ["a", "and", "of", "over", "the"];
+    arr = capitalize(str).split(" ");
+    return arr.map(word => {
+        return lowers.includes(word) ? word : capitalize(word);
+    }).join(" ");
+}
+
+// console.log(titleize("dog and cat"));
+// 8min -- had to google touppercase
+
+
+
+
+
+
+
+
+
+
+
+
 // Write a function, `anagrams(str1, str2)`, that takes in two words and returns 
 // a boolean indicating whether or not the words are anagrams. Anagrams are 
 // words that contain the same characters but not necessarily in the same order. 
@@ -12,6 +40,48 @@
 // anagrams('listen', 'silent') => true
 // anagrams('listen', 'potato') => false
 
+function reverser(word) {
+    let reverse = "";
+    for (let i = word.length - 1; i >= 0; i--) {
+        reverse += word[i];
+    }
+    return reverse;
+}
+
+function anagrams(str1, str2) {
+    if (str1.length !== str2.length) return false;
+    hash = {};
+    for (let i = 0; i < str1.length; i++) {
+        if (hash[str1[i]] == null) hash[str1[i]] = 0;
+        hash[str1[i]] += 1;
+    }
+    for (let i = 0; i < str2.length; i++) {
+        if (hash[str2[i]] == null) hash[str2[i]] = 0;
+        hash[str2[i]] -= 1;
+    }
+    // alert(Object.values(hash))
+    return Object.values(hash).forEach(ele => {
+        if (ele > 0) {
+            return false;
+        };
+        return true;
+    });
+}
+
+console.log(anagrams("plunky", "plnuky"));
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Write a `String.prototype.realWordsInString(dictionary)` method, that returns
 // an array containing the substrings of `string` that appear in `dictionary`.
 // sorted alphabetically. This method does NOT return any duplicates.
@@ -20,6 +90,20 @@
 // of substrings which are palindromes in alphabetical order. Only include 
 // substrings of length > 1.
 // e.g. "cool".symmetricSubstrings() => ["oo"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Write an `Array.prototype.quickSort(callback)` method that quick sorts an array. 
 // It should take an optional callback that compares two elements, returning -1 
@@ -47,6 +131,16 @@
 // reaching the end of the array, repeat the process. Otherwise, return the
 // sorted array.
 
+
+
+
+
+
+
+
+
+
+
 // Write an `Array.prototype.mergeSort` method that merge sorts an array. It
 // should take an optional callback that compares two elements, returning -1 if 
 // the first element should appear before the second, 0 if they are equal, and 1 
@@ -63,6 +157,17 @@
 // until a base case is reached. Use a helper method, merge, to combine the
 // halves in sorted order, and return the merged array.
 
+
+
+
+
+
+
+
+
+
+
+
 // Write a function `jumbleSort(string, alphabet)`.
 // Jumble sort takes a string and an alphabet. It returns a copy of the string
 // with the letters re-ordered according to their positions in the alphabet. If
@@ -76,6 +181,13 @@
 // jumbleSort("hello") => "ehllo"
 // jumbleSort("hello", ['o', 'l', 'h', 'e']) => 'ollhe'
 
+
+
+
+
+
+
+
 // Write a recursive function, `binarySearch(sortedArray, target)`, that returns
 // the index of `target` in `sortedArray`, or -1 if it is not found. Do NOT use
 // the built-in `Array.prototype.indexOf` or `Array.prototype.includes` methods 
@@ -87,6 +199,21 @@
 // return its index. Otherwise, recursively search either the left or the right
 // half of the array until the target is found or the base case (empty array) is
 // reached.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Write a function, `deepDup(arr)`, that will perform a "deep" duplication of
 // the array and any interior arrays. A deep duplication means that the array 
@@ -104,6 +231,7 @@
 // Write a function `firstEvenNumbersSum(n)` that returns the sum of the
 // first n even numbers recursively. Assume n > 0
 
+
 // Write a function, `digitalRoot(num)`. It should sum the digits of a positive
 // integer. If the result is greater than 9 (i.e. more than one digit), sum the 
 // digits of the resulting number. Keep repeating until there is only one digit 
@@ -113,6 +241,7 @@
 //
 // You may wish to use a helper function, `digitalRootStep(num)` which performs
 // one step of the process.
+
 
 // Write a function, `exponent(b, n)`, that calculates b^n recursively. 
 // Your solution should accept negative values for n. Do NOT use ** or Math.pow
@@ -128,8 +257,31 @@
 // Write a recursive function `recSum(numArr)` that returns the sum of all
 // elements in an array. Assume all elements are numbers.
 
+
+
+
+
+
+
+
+
+
+
+
+
 // Write a function `transpose(arr)` that returns a 2d array transposed.
 // e.g. transpose([[1,2],[3,4],[5,6]]) => [[1,3,5],[2,4,6]]
+
+
+
+
+
+
+
+
+
+
+
 
 // Write a `String.prototype.mySlice(startIdx, endIdx)` method. It should take 
 // a start index and an (optional) end index and return a new string. Do NOT 
@@ -145,8 +297,28 @@
 // ["a", "b", "c", "d"].myRotate(2) => ["c", "d", "a", "b"]
 // ["a", "b", "c", "d"].myRotate(-1) => ["d", "a", "b", "c"]
 
+
+
+
+
+
+
+
+
+
+
 // Write a function, `factors(num)`, that returns an array containing the factors
 // of a number in ascending order.
+
+
+
+
+
+
+
+
+
+
 
 // Write an `Array.prototype.myFlatten()` method which flattens a 
 // multi-dimensional array into a one-dimensional array.
@@ -165,6 +337,16 @@
 // [1, 2, 3].myJoin() => '123'
 // [1, 2, 3].myJoin('$') => '1$2$3'
 
+
+
+
+
+
+
+
+
+
+
 // Write an `Array.prototype.median` method that returns the median of elements
 // in an array. If the length is even, return the average of the middle two 
 // elements.
@@ -182,10 +364,38 @@
 // Example:
 // doubler([1, 2, 3]) => [2, 4, 6]
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Write a function `myFind(array, callback)` that returns the first
 // element for which the callback returns true. If none is found, the 
 // function should return `undefined`
 // Do not use the built-in `Array.prototype.find` method.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Write a function `primes(num)`, which returns an array of the first "num" primes.
 // You may wish to use an `isPrime(num)` helper function.
@@ -198,6 +408,19 @@
 // "dictionary-wise":
 // [0, 2] before [1, 2] (smaller first elements come first)
 // [0, 1] before [0, 2] (then smaller second elements come first)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Write a `Function.prototype.myApply(context, argsArr)` method that accepts an
 // object and an array of additional arguments. It should call the function with 
@@ -220,11 +443,25 @@
 // until the number of arguments collected is equal to the original `numArgs` 
 // value and then invokes the curried function.
 
+
+
 // Write a `Function.prototype.inherits(ParentClass)` method. It should extend
 // the methods of `ParentClass.prototype` to `ChildClass.prototype`.
 //
 // **Do NOT use `Object.create`, `Object.assign`, `Object.setPrototypeOf`, or
 // modify the `__proto__` property of any object directly.**
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Write an `Array.prototype.myEach(callback)` method that invokes a callback
 // for every element in an array and returns undefined. Do NOT use the built-in
@@ -261,4 +498,3 @@
 // returns false. Use the `Array.prototype.myEach` method you defined above. Do 
 // NOT call the built-in `Array.prototype.every` or `Array.prototype.forEach` 
 // methods.
-
