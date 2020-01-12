@@ -286,6 +286,7 @@ function merge(left, right, callback) {
 // 15min -- had to peek -- length issue in merge while loop?
 // 7min -- dumb bug - didnt devide length for mid
 // 5.5min -- dumb bug -- used shift instead of shift()
+// 7min -- dumb bug -- righ instead of right...
 
 
 
@@ -308,6 +309,31 @@ function merge(left, right, callback) {
 // jumbleSort("hello") => "ehllo"
 // jumbleSort("hello", ['o', 'l', 'h', 'e']) => 'ollhe'
 
+function jumbleSort(str, alpha) {
+    alpha = alpha || "abcdefghijklmnopqrstuvwxyz".split("");
+
+    let arr = str.split("");
+    let sorted = false;
+
+    while (!sorted) {
+        sorted = true;
+        for (let i = 0; i < arr.length - 1; i++) {
+            idx1 = alpha.indexOf(arr[i]);
+            idx2 = alpha.indexOf(arr[i+1]);
+
+            if (idx1 > idx2) {
+                [[arr[i+1]], [arr[i]]] = [[arr[i]], [arr[i+1]]];
+                sorted = false;
+            }
+        }
+    }
+
+    return arr.join("");
+}
+
+
+
+// 13min --- had to peek -- dumb error calling split() instead of split("")
 
 
 
