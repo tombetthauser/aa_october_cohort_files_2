@@ -882,28 +882,27 @@ function isPrime(num) {
 // Write an `Array.prototype.twoSum` method, that finds all pairs of positions 
 // where the elements at those positions sum to zero.
 
+// NB: ordering matters. Each pair must be sorted with the smaller index
+// before bigger index. The array of pairs must be sorted
+// "dictionary-wise":
+// [0, 2] before [1, 2] (smaller first elements come first)
+// [0, 1] before [0, 2] (then smaller second elements come first)
+
 Array.prototype.twoSum = function() {
     let pairs = [];
 
     for (let i = 0; i < this.length - 1; i++) {
         for (let j = i + 1; j < this.length; j++) {
             if ((this[i] + this[j]) === 0) pairs.push([i, j]);
-        }
-    }
+        }    
+    }    
 
     return pairs;
-}
+}    
 
-console.log([1,2,-1,-2,3].twoSum())
+// console.log([1,2,-1,-2,3].twoSum())
 
 // / 4min super rusty -- dumb bugs no biggie
-
-
-// NB: ordering matters. Each pair must be sorted with the smaller index
-// before bigger index. The array of pairs must be sorted
-// "dictionary-wise":
-// [0, 2] before [1, 2] (smaller first elements come first)
-// [0, 1] before [0, 2] (then smaller second elements come first)
 
 
 
@@ -924,20 +923,74 @@ console.log([1,2,-1,-2,3].twoSum())
 // the built-in `Function.prototype.apply` or `Function.prototype.call` methods
 // in your implementation.
 
+
+Function.prototype.myApply = function(cont, args = []) {
+    return this.bind(cont, ...args)();
+}
+
+// 7min with notes -- close though
+// ~2min no notes!
+// 1.5min no notes!
+// 1.75min no notes!
+
+
+
 // Write a `Function.prototype.myCall(context)` method, that accepts an object, 
 // and any number of additional arguments. It should call the function with the
 // passed-in object as `this`, also passing the remaining arguments. Do NOT use
 // the built-in `Function.prototype.call` or `Function.prototype.apply` methods 
 // in your implementation.
 
+Function.prototype.myCall = function(cont, ...args) {
+    return this.bind(cont, ...args)();
+}
+
+// 2min no notes!
+// 1.5min no notes!!
+// 1.5min no notes!!!
+
+
+
 // Write a `Function.prototype.myBind(context)` method. It should return a copy
 // of the original function, where `this` is set to `context`. It should allow 
 // arguments to the function to be passed both at bind-time and call-time.
 // Note that you are NOT allowed to use ES6 arrow syntax for this problem.
 
+Function.prototype.myBind = function(cont, ...bargs) {
+    let that = this;
+    return function(...cargs) {
+        return that.apply(cont, bargs.concat(cargs));
+    }
+}
+
+// ~4min with notes
+// 2min no notes!
+// 2min no notes - talked it out!
+// 2min no notes - talked it out again - this / that makes sense now, its the original function!!
+
+
+
 // Write a `Function.prototype.myCurry(numArgs)` method that collects arguments 
 // until the number of arguments collected is equal to the original `numArgs` 
 // value and then invokes the curried function.
+
+Function.prototype.myCurry = function(num) {
+    let argarr = [];
+    let ofunc = this;
+    return function _curry(...args) {
+        argarr.push(...args);
+        if (argarr.length < num) return _curry;
+        return ofunc(...argarr);
+    }
+}
+
+// ~6min with notes :(
+// 2min no notes no bugs!
+// 2min again no bugs!!
+// 2min no bugs!!!
+
+
+
 
 
 // Write a `Function.prototype.inherits(ParentClass)` method. It should extend
