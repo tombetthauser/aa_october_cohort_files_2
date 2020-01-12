@@ -332,8 +332,10 @@ function jumbleSort(str, alpha) {
 }
 
 
-
 // 13min --- had to peek -- dumb error calling split() instead of split("")
+// 4min --- only minor syntax errs
+
+
 
 
 
@@ -353,6 +355,30 @@ function jumbleSort(str, alpha) {
 // half of the array until the target is found or the base case (empty array) is
 // reached.
 
+function binarySearch(arr, target) {
+    if (arr.length < 1) return -1;
+
+    let midx = Math.floor(arr.length / 2);
+    let middle = arr[midx];
+    let left = arr.slice(0, midx);
+    let right = arr.slice(midx + 1);
+
+    if (target > middle) {
+        let sub = binarySearch(right, target);
+        if (sub === -1) return -1;
+        return (midx + 1 + sub);
+    } else if (target < middle) {
+        return binarySearch(left, target);
+    } else {
+        return midx;
+    }
+}
+
+// 22min with notes ... bad
+// 20min with notes... wtf
+// 4min no notes!
+// 4min no notes!!
+// 3min no notes!!!
 
 
 
@@ -373,6 +399,22 @@ function jumbleSort(str, alpha) {
 // itself, as well as any nested arrays (no matter how deeply nested) are duped 
 // and are completely different objects in memory than those in the original 
 // array.
+
+function deepDup(arr) {
+    let copy = [];
+    arr.forEach(ele => {
+        if (ele instanceof Array) {
+            copy.push(deepDup(ele));
+        } else {
+            copy.push(ele)
+        }
+    })
+    return copy;
+}
+
+// 5min rusty -- no notes
+// 2min!
+
 
 // Write a recursive function `stringIncludeKey(string, key)` that takes in 
 // a string to search and a key string. Return true if the string contains all 
