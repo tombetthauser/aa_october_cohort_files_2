@@ -999,6 +999,19 @@ Function.prototype.myCurry = function(num) {
 // **Do NOT use `Object.create`, `Object.assign`, `Object.setPrototypeOf`, or
 // modify the `__proto__` property of any object directly.**
 
+Function.prototype.inherits = function(parent) {
+    function Surrogate() {};
+    Surrogate.prototype = parent.prototype;
+    this.prototype = new Surrogate;
+    this.constructor = this;
+}
+
+// 4min no notes - just parent.prototype bug!!
+// ~2min no bugs!!
+// 2min no bugs!!!
+
+
+
 
 
 
