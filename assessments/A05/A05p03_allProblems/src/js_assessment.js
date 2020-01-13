@@ -635,7 +635,6 @@ String.prototype.mySlice = function(start, end) {
     return restr;
 }
 
-console.log("cat")
 
 // 22min -- stupid bugs -- peeked -- fu jasmine
 // 3min -- no notes
@@ -717,18 +716,25 @@ function factors(num) {
 // [["a"], "b", ["c", "d", ["e"]]].myFlatten() => ["a", "b", "c", "d", "e"]
 
 Array.prototype.myFlatten = function() {
-    return this.map(ele => {
+    let rarr = [];
+    this.forEach(ele => {
         if (ele instanceof Array) {
-            return ele.myFlatten();
+            rarr = rarr.concat(ele.myFlatten());
         } else {
-            return ele;
+            rarr.push(ele);
         }
     })
+    return rarr;
 }
+
+console.log([1,[1,2]].myFlatten())
 
 // 10+min peeked -- dumb syntax errs
 // 2min no notes
 // 2min no notes!
+
+// 6 min -- super rusty - no notes - one dumb bug - don't use map
+// NO NOTES
 
 
 
@@ -746,6 +752,8 @@ function myReverse(arr) {
 }
 
 // 2min -- super rusty
+// NO NOTES
+
 
 
 
@@ -757,17 +765,22 @@ function myReverse(arr) {
 // [1, 2, 3].myJoin() => '123'
 // [1, 2, 3].myJoin('$') => '1$2$3'
 
-Array.prototype.myJoin = function(sep = '') {
-    let joined = '';
-    this.forEach( (ele, idx) => {
-        joined += `${ele}`;
-        if (idx < this.length - 1) joined += sep;
-    });
-    return joined;
+Array.prototype.myJoin = function(sep = "") {
+    let restr = "";
+    if (!this.length) return restr;
+    for (let i = 0; i < this.length - 1; i++) {
+        restr += `${this[i]}`;
+        restr += `${sep}`
+    }
+    restr += `${this[this.length - 1]}`;
+    return restr;
 }
 
 // 11min -- stupid jasmine bugs
 // 3min with dumb 'function' syntax stupidness 
+
+// ~4min super rusty no notes no bugs
+// NO NOTES
 
 
 
@@ -781,19 +794,22 @@ Array.prototype.myJoin = function(sep = '') {
 // elements.
 
 Array.prototype.median = function() {
+    if (!this.length) return null;
     let copy = this.sort();
-    if (copy.length < 1) return null;
-    let midx = Math.floor(copy.length / 2);
+    let midx = Math.floor(copy.length / 2)
     if (copy.length % 2 === 0) {
-        return (copy[midx - 1] + copy[midx]) / 2
+        return (copy[midx -1] + copy[midx]) / 2
     } else {
-        return copy[midx]
+        return copy[midx];
     }
 }
 
 // console.log([1,2,4,3].median())
 
 // 6min - had to peek - they didn't fucking say it needed to be FUCKING sorted FUCK YOU
+
+// 5min - no major bugs - no notes
+// NO NOTES
 
 
 
@@ -823,6 +839,8 @@ Array.prototype.dups = function() {
 // console.log([1,2,3,4,3,2].dups());
 
 // 4min super rusty
+// NO NOTES
+
 
 
 
@@ -838,6 +856,8 @@ function doubler(arr) {
 }
 
 // 2min super rusty
+// NO NOTES
+
 
 
 
@@ -867,6 +887,8 @@ function myFind(arr, call) {
 }
 
 // 3min super rusty
+// NO NOTES
+
 
 
 
