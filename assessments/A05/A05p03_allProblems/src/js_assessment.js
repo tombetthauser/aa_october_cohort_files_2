@@ -1028,12 +1028,35 @@ Function.prototype.inherits = function(parent) {
 // for every element in an array and returns undefined. Do NOT use the built-in
 // `Array.prototype.forEach`.
 
+Array.prototype.myEach = function(call) {
+    for (let i = 0; i < this.length; i++) call(this[i]);
+}
+
+// 1min no notes no bugs!
+
+
 // Write an `Array.prototype.myReduce(callback, acc)` method which takes a 
 // callback and an optional argument of a default accumulator. If myReduce only 
 // receives one argument, then use the first element of the array as the default 
 // accumulator. Use the `Array.prototype.myEach` method you defined above. Do 
 // NOT call in the built-in `Array.prototype.reduce` or `Array.prototype.forEach` 
 // methods.
+
+Array.prototype.myReduce = function(call, acc) {
+    let copy = this.slice();
+    if (acc == null) {
+        acc = copy[0];
+        copy = copy.slice(1);
+    }
+    copy.myEach(ele => {
+        acc = call(acc, ele);
+    });
+    return acc;
+}
+
+// 5min - didnt use myEach, dumb, no biggie
+
+
 
 // Write an `Array.prototype.myReject(callback)` method. Return a new array, 
 // which contains only the elements for which the callback returns false. 
