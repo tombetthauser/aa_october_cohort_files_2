@@ -214,7 +214,7 @@ Array.prototype.quickSort = function(call) {
 
 Array.prototype.bubbleSort = function(call) {
     let copy = this.slice();
-    if (!call) call = function(a, b) {if (a < b) return -1};
+    if (!callback) callback = function(a, b) {if (a < b) return -1};
     let sorted = false;
     while (!sorted) {
         sorted = true;
@@ -258,39 +258,7 @@ Array.prototype.bubbleSort = function(call) {
 // until a base case is reached. Use a helper method, merge, to combine the
 // halves in sorted order, and return the merged array.
 
-Array.prototype.mergeSort = function(callback) {
-    if (this.length < 2) return this;
 
-    if (!callback) {
-        callback = function(a, b) {
-            if (a < b) return -1;
-            return 1;
-        }
-    }
-
-    let mid = Math.floor(this.length - 1);
-    let left = this.slice(0, mid).mergeSort(callback);
-    let right = this.slice(mid).mergeSort(callback);
-
-    return merge(left, right, callback);
-}
-
-function merge(left, right, callback) {
-    let sorted = [];
-
-    while (left.length && right.length) {
-        call = callback(left[0], right[0]);
-        if (call === 1) {
-            sorted.push(right.shift());
-        } else {
-            sorted.push(left.shift());
-        }
-    }
-
-    return sorted.concat(left).concat(right);
-}
-
-// console.log([2,1,4,5,2].mergeSort())
 
 // 15min -- had to peek -- length issue in merge while loop?
 // 7min -- dumb bug - didnt devide length for mid
@@ -298,7 +266,8 @@ function merge(left, right, callback) {
 // 7min -- dumb bug -- righ instead of right...
 
 
-
+// 15min -- super rusty -- dumb pop instead of shift bug in merge -- also no base case
+// NO NOTES
 
 
 
