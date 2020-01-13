@@ -1065,11 +1065,35 @@ Array.prototype.myReduce = function(call, acc) {
 // ex.
 // [1,2,3].myReject( (el) => el > 2 ) => [1, 2]
 
+Array.prototype.myReject = function(call) {
+    let rarr = [];
+    this.myEach(ele => {
+        if (!call(ele)) rarr.push(ele);
+    });
+    return rarr;
+}
+
+// 4min super rusty -- dumb bugs no biggies
+
+
+
 // Write an `Array.prototype.mySome(callback)` method which takes a callback 
 // and returns true if the callback returns true for ANY element in the array. 
 // Otherwise, return false. 
 // Use the `Array.prototype.myEach` method you defined above. Do NOT call the
 // built-in `Array.prototype.some` or `Array.prototype.forEach` methods.
+
+Array.prototype.mySome = function(call) {
+    let rebool = false;
+    this.myEach(ele => {
+        if (call(ele)) rebool = true;
+    })
+    return rebool;
+}
+
+// 2min no bugs!
+
+
 
 // Write an `Array.prototype.myFilter(callback)` that takes a callback and 
 // returns a new array which includes every element for which the callback 
@@ -1077,8 +1101,31 @@ Array.prototype.myReduce = function(call, acc) {
 // NOT call the built-in `Array.prototype.filter` or `Array.prototype.forEach` 
 // methods.
 
+Array.prototype.myFilter = function(call) {
+    let rarr = [];
+
+    this.myEach( ele => {
+        if (call(ele)) rarr.push(ele)
+    });
+
+    return rarr;
+}
+
+// 2min no bugs!
+
+
 // Write an `Array.prototype.myEvery(callback)` method that returns true 
 // if the callback returns true for every element in the array, and otherwise 
 // returns false. Use the `Array.prototype.myEach` method you defined above. Do 
 // NOT call the built-in `Array.prototype.every` or `Array.prototype.forEach` 
 // methods.
+
+Array.prototype.myEvery = function(call) {
+    let rebool = true;
+    this.myEach( ele => {
+        if (!call(ele)) rebool = false;
+    });
+    return rebool;
+}
+
+// 2min no bugs!!
