@@ -312,30 +312,30 @@ function merge(left, right, call) {
 // jumbleSort("hello", ['o', 'l', 'h', 'e']) => 'ollhe'
 
 function jumbleSort(str, alpha) {
-    alpha = alpha || "abcdefghijklmnopqrstuvwxyz".split("");
-
-    let arr = str.split("");
+    alpha = alpha || "abcdefghijklmnopqrstuvwxyz".split("")
+    
+    let rarr = str.split("")
     let sorted = false;
-
     while (!sorted) {
         sorted = true;
-        for (let i = 0; i < arr.length - 1; i++) {
-            idx1 = alpha.indexOf(arr[i]);
-            idx2 = alpha.indexOf(arr[i+1]);
-
+        for (let i = 0; i < rarr.length - 1; i++) {
+            let idx1 = alpha.indexOf(rarr[i]);
+            let idx2 = alpha.indexOf(rarr[i+1]);
             if (idx1 > idx2) {
-                [[arr[i+1]], [arr[i]]] = [[arr[i]], [arr[i+1]]];
+                [rarr[i+1], rarr[i]] = [rarr[i], rarr[i+1]];
                 sorted = false;
             }
         }
     }
-
-    return arr.join("");
+    return rarr.join("")
 }
 
 
 // 13min --- had to peek -- dumb error calling split() instead of split("")
 // 4min --- only minor syntax errs
+
+// 5min no bugs
+// NO NOTES
 
 
 
@@ -358,16 +358,16 @@ function jumbleSort(str, alpha) {
 // reached.
 
 function binarySearch(arr, target) {
-    if (arr.length === 0) return -1;
+    if (target < arr[0] || arr[arr.length - 1] < target) return -1;
 
     let midx = Math.floor(arr.length / 2);
     let middle = arr[midx];
     let left = arr.slice(0, midx);
     let right = arr.slice(midx + 1);
 
-    if (middle > target) {
+    if (target < middle) {
         return binarySearch(left, target);
-    } else if (target > middle) {
+    } else if (middle < target) {
         let sub = binarySearch(right, target);
         if (sub === -1) return -1;
         return (sub + midx + 1);
@@ -376,7 +376,7 @@ function binarySearch(arr, target) {
     }
 }
 
-// console.log(binarySearch([1,2,3,4,5], 10));
+// console.log(binarySearch([1,2,3,4,5,6], 6))
 
 // 22min with notes ... bad
 // 20min with notes... wtf
@@ -388,7 +388,8 @@ function binarySearch(arr, target) {
 // 5min wierd -1 bug
 // 3.5 min -- left / middle bug -- no biggie
 
-
+// 7.5min -- no real bugs
+// NO NOTES
 
 
 
@@ -421,7 +422,7 @@ function deepDup(arr) {
 
 // 5min rusty -- no notes
 // 2min!
-
+// no notes
 
 
 
@@ -441,6 +442,8 @@ function stringIncludeKey(string, key) {
 }
 
 // 4min -- super rusty!!
+// no notes
+
 
 
 
@@ -456,6 +459,8 @@ function firstEvenNumbersSum(n) {
 }
 
 // ~3min!! -- super rusty
+// no notes
+
 
 
 
@@ -478,6 +483,8 @@ function digitalRoot(num) {
 }
 
 // ~3.5min -- super rusty!!
+// no notes
+
 
 
 
@@ -495,6 +502,8 @@ function exponent(b, n) {
 }
 
 // ~4min -- super rusty!!
+// no notes
+
 
 
 
@@ -502,14 +511,9 @@ function exponent(b, n) {
 // fibonacci numbers recursively. Assume n > 0.
 // Note that for this problem, the fibonacci sequence starts with [1, 1]. 
 
-function fib(n) {
-    if (n < 3) return 1;
-    return fib(n-2) + fib(n-1);
-}
-
 function fibsSum(n) {
     if (n < 3) return n;
-    return fibsSum(n-1) + fib(n);
+    return fibsSum(n - 2) + fibsSum(n - 1) + 1;
 }
 
 // 8min - peeked at notes
@@ -517,26 +521,43 @@ function fibsSum(n) {
 // 2min!! no notes
 // 1.5min!!! no notes :)
 
+// 12min - checked notes ):(
+// 2min no notes
+// 2min hard way - no notes
+// 1.5 min short way - no notes
+// 2min long way - no notes
+// 1.5min short way no notes
+// no notes
+
+
+
 
 
 // Write a recursive function, `factorialsRec(num)`, that returns the first 
 // `num` factorial numbers. Note that the 1st factorial number is 0!, which 
 // equals 1. The 2nd factorial is 1!, the 3rd factorial is 2!, etc.
 
-function factorialsRec(num) {
-    if (num === 1) return [1];
-
-    let facts = factorialsRec(num - 1);
-    let last = facts[facts.length - 1];
-
-    facts.push(last * (num - 1));
+function factorialsRec(n) {
+    if (n === 1) return [1];
+    let facts = factorialsRec(n-1);
+    facts.push(fact(n-1));
     return facts;
+}
+
+function fact(n) {
+    if (n < 2) return 1;
+    return n * fact(n-1);
 }
 
 // 15min -- peeked -- sooo rusty ::((
 // 3min no notes!
 // 2min no notes!!
 // 2min again! yay!
+
+// 10min super rusty - no notes
+// 3min no notes
+// 2min no notes
+// no notes
 
 
 
@@ -551,6 +572,7 @@ function recSum(arr) {
 }
 
 // 2.5min -- dumb bug, no prob
+// no notes
 
 
 
@@ -583,6 +605,8 @@ function transpose(arr) {
 
 // ~5min rusty
 // 2.5min!!
+// no notes
+
 
 
 
@@ -599,23 +623,26 @@ function transpose(arr) {
 // `abcde`.mySlice(2) => `cde`
 // `abcde`.mySlice(1, 3) => `bc`
 
-String.prototype.mySlice = function(startIdx, endIdx) {
+String.prototype.mySlice = function(start, end) {
     let restr = "";
-
-    if (endIdx == null) {
-        endIdx = this.length;
+    if (start >= end) return restr;
+    if (end == null || end > this.length) {
+        end = this.length;
     }
-
-    for (let i = startIdx; i < endIdx && i < this.length; i++) {
+    for (let i = start; i < end; i++) {
         restr += this[i];
     }
-
     return restr;
 }
+
+console.log("cat")
 
 // 22min -- stupid bugs -- peeked -- fu jasmine
 // 3min -- no notes
 // 2min - no notes, w/e fu jasmine
+
+// 4min - no real bugs
+// NO NOTES
 
 
 
@@ -649,6 +676,7 @@ Array.prototype.myRotate = function(time = 1) {
 // console.log([1,2,3,4,5,6,7,8].myRotate(-16));
 
 // ~15min while talking to dan -- no problems
+// NO NOTES
 
 
 
@@ -663,18 +691,18 @@ Array.prototype.myRotate = function(time = 1) {
 // 10:55
 
 function factors(num) {
-    let arr = [];
+    let rarr = [];
     for (let i = 0; i <= num; i++) {
-        if (num % i === 0 && !(arr.includes(i))) {
-            arr.push(i);
-        }
+        if (num % i === 0) rarr.push(i);
     }
-    return arr;
+    return rarr;
 }
 
 // console.log(factors(10));
 
 // ~20min super distracted - over thought it
+// 2min no notes no bugs
+// NO NOTES
 
 
 
@@ -689,15 +717,13 @@ function factors(num) {
 // [["a"], "b", ["c", "d", ["e"]]].myFlatten() => ["a", "b", "c", "d", "e"]
 
 Array.prototype.myFlatten = function() {
-    let flat = [];
-    this.forEach(ele => {
+    return this.map(ele => {
         if (ele instanceof Array) {
-            flat = flat.concat(ele.myFlatten());
+            return ele.myFlatten();
         } else {
-            flat.push(ele);
+            return ele;
         }
     })
-    return flat;
 }
 
 // 10+min peeked -- dumb syntax errs
