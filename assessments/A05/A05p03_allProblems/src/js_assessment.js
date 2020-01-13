@@ -907,25 +907,30 @@ function myFind(arr, call) {
 // You may wish to use an `isPrime(num)` helper function.
 
 
-function primes(num) {
+function primes(count) {
     let rarr = [];
     let i = 2;
-    while (rarr.length < num) {
+    while (rarr.length < count) {
         if (isPrime(i)) rarr.push(i);
         i++;
     }
+    // alert(rarr)
     return rarr;
 }
 
 function isPrime(num) {
+    let rebool = true;
     for (let i = 2; i < num; i++) {
-        if (num % i === 0) return false;
+        if (num % i === 0) rebool = false;
     }
-    return true;
+    return rebool;
 }
 
 // 11min super rusty -- 1 is not a prime? sure whatever
 // 2.5 min -- no bugs
+
+// 6min -- rusty - no real bugs - tiredish
+// NO NOTES
 
 
 
