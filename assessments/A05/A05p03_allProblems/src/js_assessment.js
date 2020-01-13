@@ -4,21 +4,23 @@
 // string): ["a", "and", "of", "over", "the"]
 
 function titleize(str) {
-    nos = ["a", "and", "of", "over", "the"]
-    arr1 = str.split(" ");
-    arr1[0] = arr1[0][0].toUpperCase() + arr1[0].slice(1);
-    for (let i = 0; i < arr1.length; i++) {
-        if (!nos.includes(arr1[i])) {
-            arr1[i] = arr1[i][0].toUpperCase() + arr1[i].slice(1);
-        }
+    let nonos = ["a", "and", "of", "over", "the"];
+    let copy = str.slice();
+    copy = copy[0].toUpperCase() + copy.slice(1);
+    copy = copy.split(" ");
+    for (let i = 0; i < copy.length; i++) {
+        if (!nonos.includes(copy[i])) copy[i] = copy[i][0].toUpperCase() + copy[i].slice(1);
     }
-    return arr1.join(" ");
+    return copy.join(" ");
 }
 
 // console.log(titleize("dog and cat"));
 // 8min -- had to google touppercase
 // 4min -- rusty
 // 4min -- less rusty
+
+// 4min -- rusty
+// NO NOTES 
 
 
 
@@ -41,7 +43,7 @@ function titleize(str) {
 // anagrams('listen', 'potato') => false
 
 function anagrams(str1, str2) {
-    hash = {};
+    let hash = {};
     for (let i = 0; i < str1.length; i++) {
         hash[str1[i]] = hash[str1[i]] || 0;
         hash[str1[i]] += 1;
@@ -50,13 +52,18 @@ function anagrams(str1, str2) {
         hash[str2[i]] = hash[str2[i]] || 0;
         hash[str2[i]] -= 1;
     }
-    return Object.values(hash).every(count => count === 0);
+    let rebool = true;
+    Object.values(hash).forEach( count => {
+        if (count !== 0) rebool = false;
+    })
+    return rebool;
 }
-
-anagrams("cat", "tvc");
 
 // 9min --- super rusty
 // 2.5min :)
+
+// 4min rusty - no bugs
+// NO NOTES
 
 
 
@@ -88,24 +95,27 @@ String.prototype.realWordsInString = function(dictionary) {
 // e.g. "cool".symmetricSubstrings() => ["oo"]
 
 String.prototype.symmetricSubstrings = function() {
-    let subs = [];
+    let rarr = [];
     for (let i = 0; i < this.length - 1; i++) {
         for (let j = i+1; j < this.length; j++) {
-            sub = this.slice(i, j+1);
+            let sub = this.slice(i, j+1);
             if (sub === sub.split("").reverse().join("")) {
-                subs.push(sub);
+                rarr.push(sub);
             }
         }
     }
-    return subs.sort();
+    return rarr.sort();
 }
+
+
 
 // "rattatakak".symmetricSubstrings();
 
 // 10min -- rough / rusty / bugs
 // 3min --- use .split("").reverse().join("") !!
 
-
+// 5min super rusty - no bugs - just jasmine bs
+// NO NOTES
 
 
 
@@ -149,21 +159,21 @@ String.prototype.symmetricSubstrings = function() {
 // remaining elements on to the appropriate side of the pivot. Recursively quick 
 // sort each side of the array until a base case is reached.
 
-Array.prototype.quickSort = function(callback) {
+Array.prototype.quickSort = function(call) {
     if (this.length < 2) return this;
-    if (!callback) {
-        callback = function(z,x) {
-            if (z<x) return -1;
+    if (!call) {
+        call = function(a,b) {
+            if (a < b) return -1;
             return 1;
         }
     }
 
     let pivot = this[0];
-    let left = this.slice(1).filter(e => callback(e, pivot) === -1);
-    let right = this.slice(1).filter(e => callback(e, pivot) !== -1);
+    let left = this.slice(1).filter(ele => call(ele, pivot) === -1);
+    let right = this.slice(1).filter(ele => call(ele, pivot) !== -1);
 
-    left = left.quickSort(callback);
-    right = right.quickSort(callback);
+    left = left.quickSort(call);
+    right = right.quickSort(call);
 
     return [...left, pivot, ...right];
 }
@@ -172,6 +182,10 @@ Array.prototype.quickSort = function(callback) {
 // 7min --- dumb bug, no 'lets' -- super non-descriptive
 //4min -- no real issues
 //3min -- zero bugs
+
+// ~8min - no serious bugs - super rusty
+// NO NOTES
+
 
 
 
@@ -198,32 +212,27 @@ Array.prototype.quickSort = function(callback) {
 // reaching the end of the array, repeat the process. Otherwise, return the
 // sorted array.
 
-Array.prototype.bubbleSort = function(callback) {
-    if (!callback) {
-        callback = function(z,x) {
-            if (z<x) return -1;
-            return 1;
-        }
-    }
-
+Array.prototype.bubbleSort = function(call) {
     let copy = this.slice();
+    if (!call) call = function(a, b) {if (a < b) return -1};
     let sorted = false;
-
     while (!sorted) {
         sorted = true;
-        for (let i = 0; i < copy.length - 1; i++) {
-            if (callback(copy[i], copy[i+1]) !== -1) {
-                [copy[i+1], copy[i]] = [copy[i], copy[i+1]];
+        for (let i = 0; i < copy.length -1; i++) {
+            if (call(copy[i], copy[i+1]) !== -1) {
+                [copy[i+1], copy[i]] = [copy[i], copy[i+1]]
                 sorted = false;
             }
         }
     }
-
     return copy;
 }
 
 //12min -- got stuck in debugger?
 //4min - no bugs
+
+// 6min no bugs -- rusty
+// NO NOTES
 
 
 
