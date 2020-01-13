@@ -214,7 +214,7 @@ Array.prototype.quickSort = function(call) {
 
 Array.prototype.bubbleSort = function(call) {
     let copy = this.slice();
-    if (!callback) callback = function(a, b) {if (a < b) return -1};
+    if (!call) call = function(a, b) {if (a < b) return -1};
     let sorted = false;
     while (!sorted) {
         sorted = true;
@@ -258,7 +258,29 @@ Array.prototype.bubbleSort = function(call) {
 // until a base case is reached. Use a helper method, merge, to combine the
 // halves in sorted order, and return the merged array.
 
+Array.prototype.mergeSort = function(call) {
+    call = call || function(a, b) {if (a < b) return -1};
+    
+    if (this.length < 2) return this;
 
+    let midx = Math.floor(this.length / 2)
+    let left = this.slice(0, midx).mergeSort(call);
+    let right = this.slice(midx).mergeSort(call);
+    
+    return merge(left, right, call);
+}
+
+function merge(left, right, call) {
+    let sorted = [];
+    while (left.length && right.length) {
+        if (call(left[0], right[0]) === -1) {
+            sorted.push(left.shift());
+        } else {
+            sorted.push(right.shift());
+        }
+    }
+    return sorted.concat(left).concat(right);
+}
 
 // 15min -- had to peek -- length issue in merge while loop?
 // 7min -- dumb bug - didnt devide length for mid
@@ -267,6 +289,8 @@ Array.prototype.bubbleSort = function(call) {
 
 
 // 15min -- super rusty -- dumb pop instead of shift bug in merge -- also no base case
+// 8min -- stupid random instead of floor bug - vs autofill? w/e
+// 6min no bugs!!
 // NO NOTES
 
 
