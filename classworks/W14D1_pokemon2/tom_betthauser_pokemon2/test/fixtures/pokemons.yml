@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  attack: 1
+  defense: 1
+  poke_type: MyString
+  moves: MyString
+  image_url: MyString
+
+two:
+  name: MyString
+  attack: 1
+  defense: 1
+  poke_type: MyString
+  moves: MyString
+  image_url: MyString
+
+# == Schema Information
+#
+# Table name: pokemons
+#
+#  id         :integer(8)      not null, primary key
+#  name       :string          not null
+#  attack     :integer(4)      not null
+#  defense    :integer(4)      not null
+#  poke_type  :string          not null
+#  moves      :string          default("{}"), not null
+#  image_url  :string          not null
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+
