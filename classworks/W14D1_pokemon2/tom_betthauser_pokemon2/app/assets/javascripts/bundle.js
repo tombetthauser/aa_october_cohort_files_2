@@ -159,9 +159,12 @@ window.store = store;
 window.dispatch = store.dispatch;
 window.getState = store.getState;
 document.addEventListener("DOMContentLoaded", function () {
-  var root = document.getElementById('root');
+  var root = document.getElementById("root");
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
-});
+}); // document.addEventListener("DOMContentLoaded", ()=> {
+//     const root = document.getElementById('root');
+//     ReactDOM.render(<Root />, root);
+// })
 
 /***/ }),
 
@@ -271,12 +274,18 @@ var configureStore = function configureStore() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAllPokemon", function() { return fetchAllPokemon; });
+// import { $CombinedState } from "redux"
 var fetchAllPokemon = function fetchAllPokemon() {
   return $.ajax({
-    method: "get",
+    method: "GET",
     url: "/api/pokemon"
   });
-};
+}; // export const fetchAllPokemon = () => {
+//     return $.ajax({
+//         method: "get",
+//         url: "/api/pokemon"
+//     })
+// }
 
 /***/ }),
 
