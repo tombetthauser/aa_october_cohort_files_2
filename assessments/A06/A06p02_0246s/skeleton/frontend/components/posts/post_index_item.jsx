@@ -10,3 +10,13 @@ the following:
 2. A link to the post's edit page with text 'Edit'.
 3. A button to delete the post.
 */
+
+const PostIndexItem = props => (
+  <li>
+    <Link to={`/posts/${props.post.id}`}>{props.post.title}</Link>
+    <Link to={`/posts/${props.post.id}/edit`}>Edit</Link>
+    <button onClick={() => props.deletePost(props.post.id)}>Delete</button>
+  </li>
+);
+
+export default PostIndexItem;
