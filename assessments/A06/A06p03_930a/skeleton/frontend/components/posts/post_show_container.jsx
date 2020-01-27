@@ -8,3 +8,13 @@ post from the store as a `post` prop. Additionally, it should map in
 a function that will dispatch `fetchPost` to the store as a prop of the same
 name.
 */
+
+const mSTP = (state, ownProps) => ({
+  post: state.posts[ownProps.match.params.postId]
+})
+
+const mDTP = dispatch => ({
+  fetchPost: post => dispatch(fetchPost(post))
+})
+
+export default connect(mSTP, mDTP)(PostShow);
