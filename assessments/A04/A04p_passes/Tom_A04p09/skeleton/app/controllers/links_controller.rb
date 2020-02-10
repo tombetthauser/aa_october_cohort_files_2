@@ -1,5 +1,4 @@
 class LinksController < ApplicationController
-
     before_action :require_login
 
     def index
@@ -44,5 +43,4 @@ class LinksController < ApplicationController
     def link_params
         params.require(:link).permit(:title, :url)
     end
-
 end
