@@ -5,6 +5,7 @@
 // To generate the next number of the sequence, we add up the previous two numbers.
 //
 // For example, the sequence begins: 2, 1, 3, 4, 7, 11, ...
+                            //       0  1  2  3  4  5
 //
 // Solve this recursively!
 //
@@ -17,9 +18,12 @@
 // lucasNumber(5)   // => 11
 // lucasNumber(9)   // => 76
 function lucasNumber(n) {
-
+    let basic = [2, 1]
+    if (n < 2) return basic[n]
+    return lucasNumber(n-1) + lucasNumber(n-2)
 }
 
+// 2 .... 3
 
 // Write a function, sumArray(array), that takes in an array of numbers.
 // The function should return the total sum of the elements.
@@ -33,7 +37,9 @@ function lucasNumber(n) {
 // sumArray([5, 2])         // => 7
 // sumArray([4, 10, -1, 2]) // => 15
 function sumArray(array) {
-
+    if (array.length === 0) return 0;
+    if (array.length === 1) return array[0];
+    return array[0] + sumArray(array.slice(1))
 }
 
 
@@ -49,7 +55,8 @@ function sumArray(array) {
 // reverseString("internet")    // => "tenretni"
 // reverseString("friends")     // => "sdneirf"
 function reverseString(str) {
-
+    if (str.length < 2) return str;
+    return reverseString(str.slice(1)) + str[0];
 }
 
 
@@ -70,8 +77,26 @@ function reverseString(str) {
 // pow(3, 4)    // => 81
 // pow(2, -5)   // => 0.03125
 function pow(base, exponent) {
+    if (exponent === 0) return 1
 
+    if (exponent > 0) {
+        return base * pow(base, exponent - 1)
+    } else {
+        return 1 / base * pow(base, exponent + 1)
+    }
 }
+
+
+
+
+
+
+
+
+
+//         1                  1
+// --------------------  =  -----  =  2^(-5)
+//  2 * 2 * 2 * 2 * 2        2^5
 
 
 // A 1-dimensional array is also known as a flattened array.
@@ -88,7 +113,19 @@ function pow(base, exponent) {
 // array_1 = [1, 2, [[3, 4], [5, [6]]], [7, 8]]
 // flatten(array_1)      // => [ 1, 2, 3, 4, 5, 6, 7, 8 ]
 //
-// array_2 = ['this', ['problem', 'is'], [['pretty', 'tough'], [[':)']]]]
+// array_2 = [
+//     'this', [
+//         'problem', 'is'
+//     ], [
+//         [
+//             'pretty', 'tough'
+//         ], [
+//             [
+//                 ':)'
+//             ]]
+
+//     ]
+// ]
 // flatten(array_2)      // => [ 'this', 'problem', 'is', 'pretty', 'tough', ':)' ]
 //
 // flatten('base case')  // => [ 'base case' ]
@@ -102,11 +139,22 @@ function pow(base, exponent) {
 //     1-dimensional array: ['some data']
 //     2-dimensional array: [['some data']]
 //     3-dimensional array: [[['some data']]]
-function flatten(data) {
 
+function flatten(data) {
+    if (!(data instanceof Array)) return [data];
+    let arr = [];
+    for (let i = 0; i < data.length; i++) {
+        if (data[i] instanceof Array) {
+            arr = arr.concat(flatten(data[i]));
+        } else {
+            arr.push(data[i]);
+        }
+    }
+    return arr;
 }
 
-// Write a function, fileFinder(directories, targetFile), that accepts an object representing directories and a string respresenting a filename.
+// Write a function, fileFinder(directories, targetFile), that accepts an object 
+// representing directories and a string respresenting a filename.
 // The function should return true, if the file is contained anywhere in the given directories.
 // Note that directory names will begin with '/', but file names will not.
 // 
@@ -145,10 +193,83 @@ function flatten(data) {
 // fileFinder(desktop, 'app_academy_logo.svg');     // => true
 // fileFinder(desktop, 'everlong.flac');            // => true
 // fileFinder(desktop, 'sequoia.jpeg');             // => false
-function fileFinder(directories, targetFile) {
+// function fileFinder(directories, targetFile) {
+//     let keys = Object.keys(directories);
+//     if (keys.length === 0) return false;
+//     if (keys[0] == targetFile) return true;
+//     return fileFinder(keys.slice(1), targetFile)
+//     // for (let i = 0; i < keys.length; i++) {
+//     //     if (!directories[keys[i]]) {
+//     //         if (keys[i] == targetFile) return true;
+//     //     } else {
+//     //         return fileFinder(directories[keys[i]], targetFile);
+//     //     }
+//     // }
+// }
 
+// function fileFinder(directories, targetFile) {
+//     if (directories === targetFile) return true
+
+//     let keys = Object.keys(directories)
+
+//     return keys.forEach(key => {
+//         if (directories[key]) {
+//             if (fileFinder(directories[key], targetFile)) {
+//                 return true
+//             }
+//         } else if (key === targetFile) {
+//             return true
+//         }
+//     });
+// }
+
+
+
+function fileFinder(directories, targetFile) {
+    for (let dir in directories) {
+        if (dir === targetFile || fileFinder(directories[dir], targetFile) === true) { ////second part for this will never equal true 
+            return true;
+        }
+    }
+
+    return false;
 }
 
+
+
+// function dfs(tree, value) {
+//     var stack = []
+//     stack.push(Object.keys(tree))
+//     while (stack.length !== 0) {
+//         for (let i = 0; i < stack.length; i++) {
+//             var node = stack.pop()
+
+//             if (tree[node] === value) {
+//                 return node
+//             }
+//             if (node.right) {
+//                 stack.push(tree[node.right])
+//             }
+//             if (node.left) {
+//                 stack.push(tree[node.left])
+//             }
+//         }
+//     }
+//     return null
+// }
+
+
+
+
+
+
+// keys.forEach(key => {
+//     if (directories[key] === null) {
+//         if (key === targetFile) return true;
+//     } else {
+//         return fileFinder(directories[key], targetFile);
+//     }
+// }) 
 
 // Write another function, pathFinder(directories, targetFile), that returns the path that contains the targetFile.
 // If the targetFile is not found in the directories, then return null.
@@ -159,8 +280,12 @@ function fileFinder(directories, targetFile) {
 // pathFinder(desktop, 'trixie_lou.jpeg'));     // => '/images/pets/trixie_lou.jpeg'
 // pathFinder(desktop, 'everlong.flac'));       // => '/music/genres/rock/everlong.flac'
 // pathFinder(desktop, 'honeybadger.png'));     // => null
-function pathFinder(directories, targetFile) {
-
+function pathFinder(dirs, tar) {
+    for(let dir in dirs){
+        if (pathFinder(dirs[dir], tar)) return dir += pathFinder(dirs[dir], tar)
+        if (dir === tar) return "/" + dir
+    }
+    return null;
 }
 
 
