@@ -1,9 +1,3 @@
-# def test(name):
-#   return ("hello " + name)
-
-# print(test("tom"))
-
-
 def wordBreak(s, wordDict):
     table = [False] * (len(s) + 1)
     table[0] = True
@@ -18,4 +12,10 @@ def wordBreak(s, wordDict):
     return table[-1]
 
 n = wordBreak("catdogcat", ["cat", "dog"])
-print(n)
+
+if n:
+  print("\nhello world!\n")
+
+
+
+
